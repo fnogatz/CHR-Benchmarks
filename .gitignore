@@ -1,0 +1,10 @@
+swi/**/*.qlf
+
+c/**/*.out
+
+cchr/_cchr/intermediate
+cchr/_cchr/bin
+cchr/**/*.c
+cchr/**/*.out
+
+jchr/KULeuven_JCHR.jar
