@@ -113,13 +113,13 @@ for my $bench (keys %PDATA) {
     push @plots,"\"bench-$bench-$sys.dat\" using 1:2 title \"$sys\" with line";
   }
   print PIPE "set terminal postscript enhanced color\n";
-  print PIPE "set output \"bench-$bench.ps\"\n";
+  print PIPE "set output \"plots/bench-$bench.ps\"\n";
   print PIPE "plot ".join(', ',@plots)."\n";
 #  system("ps2pdf14 bench-$bench.ps bench-$bench.pdf");
   print PIPE "set terminal pdf monochrome enhanced dashed\n";
-  print PIPE "set output \"bench-$bench.pdf\"\n";
+  print PIPE "set output \"plots/bench-$bench.pdf\"\n";
   print PIPE "set terminal pdf enhanced font \"Helvetica,9\" linewidth 2 rounded color solid\n";
-  print PIPE "set output \"bench-$bench-col.pdf\"\n";
+  print PIPE "set output \"plots/bench-$bench-col.pdf\"\n";
   print PIPE "replot\n";
 }
 close PIPE;

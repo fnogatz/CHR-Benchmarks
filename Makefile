@@ -19,8 +19,11 @@ bench:
 bench.save:
 	./bench.pl > bench.out
 
-plot:
+plot: plot.mkdir
 	./benchparse.pl bench.out
+
+plot.mkdir:
+	mkdir -p plots
 
 test: swi.test jchr.test cchr.test c.test
 
