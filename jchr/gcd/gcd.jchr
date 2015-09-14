@@ -1,0 +1,8 @@
+public handler gcd {
+	public constraint gcd(long);
+	
+	rules {
+		gcd(0) <=> true.
+		gcd(N) \ gcd(M) <=> M >= N | gcd(LongUtil.mod(M, N)).
+	}
+}

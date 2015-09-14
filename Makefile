@@ -65,7 +65,7 @@ jchr.preinstall.freemarker: jchr.preinstall.mkdir
 jchr.preinstall.args4j: jchr.preinstall.mkdir
 	cd jchr/_jchr-libs && wget -O args4j.jar http://search.maven.org/remotecontent\?filepath\=args4j/args4j/2.0.4/args4j-2.0.4.jar
 jchr.preinstall.jack: jchr.preinstall.jack.download jchr.preinstall.jack.utf8
-	cd jchr/_jchr-libs/jack-evaluator && cp ../../IntUtil.java . && make
+	cd jchr/_jchr-libs/jack-evaluator && cp ../../IntUtil.java . && cp ../../LongUtil.java . && make
 jchr.preinstall.jack.download: jchr.preinstall.mkdir
 	cd jchr/_jchr-libs && wget -O jack.tar.gz http://www.pms.ifi.lmu.de/software/jack/resources/jack_2001_03_04.tar.gz && tar -zxvf jack.tar.gz && cd jack && cp -r evaluator ../jack-evaluator && cd .. && rm -r --interactive=never jack jack.tar.gz
 jchr.preinstall.jack.utf8:
@@ -76,6 +76,8 @@ jchr.install: jchr.preinstall
 
 jchr.prepare: jchr.prepare.fib jchr.prepare.leq jchr.prepare.primes jchr.prepare.ram
 
+jchr.prepare.gcd:
+	cd jchr/gcd && java -classpath ../_jchr-libs/antlr.jar:../_jchr-libs/args4j.jar:../_jchr-libs/freemarker.jar:../_jchr-libs/jack-evaluator:../KULeuven_JCHR.jar compiler.Main gcd.jchr && sed -i 's/package ;//g' GcdHandler.java && javac -classpath ../KULeuven_JCHR.jar:../_jchr-libs/jack-evaluator GcdHandler.java && javac -classpath ../KULeuven_JCHR.jar:../_jchr-libs/jack-evaluator:. Gcd.java
 jchr.prepare.fib:
 	cd jchr/fib && java -classpath ../_jchr-libs/antlr.jar:../_jchr-libs/args4j.jar:../_jchr-libs/freemarker.jar:../_jchr-libs/jack-evaluator:../KULeuven_JCHR.jar compiler.Main fib.jchr && sed -i 's/package ;//g' FibBoAllHandler.java && javac -classpath ../KULeuven_JCHR.jar:../_jchr-libs/jack-evaluator FibBoAllHandler.java && javac -classpath ../KULeuven_JCHR.jar:../_jchr-libs/jack-evaluator:. Fib.java
 jchr.prepare.leq:
@@ -93,8 +95,10 @@ jchr.clean:
 jchr.bench:
 	./bench.pl jchr
 
-jchr.test: jchr.test.fib jchr.test.leq jchr.test.primes jchr.test.ram jchr.test.tak
+jchr.test: jchr.test.gcd jchr.test.fib jchr.test.leq jchr.test.primes jchr.test.ram jchr.test.tak
 
+jchr.test.gcd:
+	java -classpath jchr/KULeuven_JCHR.jar:jchr/_jchr-libs/jack-evaluator:jchr/gcd Gcd 5 10
 jchr.test.fib:
 	java -classpath jchr/KULeuven_JCHR.jar:jchr/_jchr-libs/jack-evaluator:jchr/fib Fib 10
 jchr.test.leq:
