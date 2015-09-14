@@ -39,6 +39,5 @@ A: gcd(11).
 
 cleanup @ gcd(0) <=> true.
 gcd(N) \ gcd(M) <=> 0<N, N=<M | L is M - N, gcd(L).  %linear complexity
-% gcd(N) \ gcd(M) <=> 0<N, N=<M | L is M mod N, gcd(L).  %logarithmic complexity
 
 test(A,B) :- gcd(A), gcd(B).

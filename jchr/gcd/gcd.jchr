@@ -3,6 +3,6 @@ public handler gcd {
 	
 	rules {
 		gcd(0) <=> true.
-		gcd(N) \ gcd(M) <=> M >= N | gcd(LongUtil.mod(M, N)).
+		gcd(N) \ gcd(M) <=> M >= N | gcd(LongUtil.sub(M, N)).
 	}
 }
