@@ -36,10 +36,10 @@ my %SYSTBL=(
 );
 
 my %MAX=(
-  swi  => {gcd =>      800, fib =>    750, leq =>  65, primes =>  14000, ram =>     25000, tak => 500},
-  jchr => {gcd =>  1000000, fib =>  39000, leq => 480, primes =>  40000, ram =>   3500000, tak => 2100},
-  cchr => {gcd => 10000000, fib =>  25000, leq => 360, primes =>  80000, ram =>      4500, tak => 2000},
-  c    => {gcd => 35000000, fib => 135000, leq => 450, primes => 350000, ram => 250000000, tak => 3400}
+  swi  => {gcd =>     6600, fib =>  150000, leq => 120, primes =>   31000, ram =>     110000, tak =>  1550},
+  jchr => {gcd =>  3700000, fib =>   39000, leq => 490, primes =>   40000, ram =>    3400000, tak =>  2450},
+  cchr => {gcd => 16000000, fib =>  400000, leq => 360, primes =>  260000, ram =>    8500000, tak =>  3100},
+  c    => {gcd => 85000000, fib => 1600000, leq => 360, primes => 1120000, ram => 1200000000, tak => 65000}
 );
 
 sub execBench {

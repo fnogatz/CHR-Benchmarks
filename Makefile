@@ -35,7 +35,7 @@ swi.bench:
 	./bench.pl swi
 
 swi.test: swi.test.gcd swi.test.fib swi.test.leq swi.test.primes swi.test.ram swi.test.tak
-
+	@echo "swi: done"
 swi.test.gcd:
 	echo "gcd:test(5,10)." | swipl -x swi/gcd/gcd.pl.qlf
 swi.test.fib:
@@ -74,7 +74,7 @@ jchr.preinstall.jack.utf8:
 jchr.install: jchr.preinstall
 	cd jchr && wget https://dtai.cs.kuleuven.be/CHR/JCHR/downloads/KULeuven_JCHR.jar
 
-jchr.prepare: jchr.prepare.gcd jchr.prepare.fib jchr.prepare.leq jchr.prepare.primes jchr.prepare.ram
+jchr.prepare: jchr.prepare.gcd jchr.prepare.fib jchr.prepare.leq jchr.prepare.primes jchr.prepare.ram jchr.prepare.tak
 
 jchr.prepare.gcd:
 	cd jchr/gcd && java -classpath ../_jchr-libs/antlr.jar:../_jchr-libs/args4j.jar:../_jchr-libs/freemarker.jar:../_jchr-libs/jack-evaluator:../KULeuven_JCHR.jar compiler.Main gcd.jchr && sed -i 's/package ;//g' GcdHandler.java && javac -classpath ../KULeuven_JCHR.jar:../_jchr-libs/jack-evaluator GcdHandler.java && javac -classpath ../KULeuven_JCHR.jar:../_jchr-libs/jack-evaluator:. Gcd.java
@@ -96,7 +96,7 @@ jchr.bench:
 	./bench.pl jchr
 
 jchr.test: jchr.test.gcd jchr.test.fib jchr.test.leq jchr.test.primes jchr.test.ram jchr.test.tak
-
+	@echo "jchr: done"
 jchr.test.gcd:
 	java -classpath jchr/KULeuven_JCHR.jar:jchr/_jchr-libs/jack-evaluator:jchr/gcd Gcd 5 10
 jchr.test.fib:
@@ -149,7 +149,7 @@ cchr.bench:
 	./bench.pl cchr
 
 cchr.test: cchr.test.gcd cchr.test.fib cchr.test.leq cchr.test.primes cchr.test.ram cchr.test.tak
-
+	@echo "cchr: done"
 cchr.test.gcd:
 	cchr/gcd/gcd.out 10
 cchr.test.fib:
@@ -181,7 +181,7 @@ c.bench:
 	./bench.pl c
 
 c.test: c.test.gcd c.test.fib c.test.leq c.test.primes c.test.ram c.test.tak
-
+	@echo "c: done"
 c.test.gcd:
 	c/gcd/gcd.out 10
 c.test.fib:
