@@ -5,6 +5,7 @@ c/**/*.out
 cchr/_cchr/intermediate
 cchr/_cchr/bin
 cchr/**/*.c
+!cchr/_cchr/*.c
 cchr/**/*.out
 cchr/_cchr-libs
 
