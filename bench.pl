@@ -30,14 +30,14 @@ my %SYSTEMS=(
 
 my %SYSTBL=(
   swi  => {gcd => "gcd", fib => "fib", leq => "leq", primes => "primes", ram => "ram", tak => "tak"},
-  jchr => {              fib => "Fib", leq => "Leq", primes => "Primes", ram => "Ram", tak => "Tak"},
+  jchr => {gcd => "Gcd", fib => "Fib", leq => "Leq", primes => "Primes", ram => "Ram", tak => "Tak"},
   cchr => {gcd => "gcd", fib => "fib", leq => "leq", primes => "primes", ram => "ram", tak => "tak"},
   c    => {gcd => "gcd", fib => "fib", leq => "leq", primes => "primes", ram => "ram", tak => "tak"}
 );
 
 my %MAX=(
   swi  => {gcd =>      800, fib =>    750, leq =>  65, primes =>  14000, ram =>     25000, tak => 500},
-  jchr => {                 fib =>  39000, leq => 480, primes =>  40000, ram =>   3500000, tak => 2100},
+  jchr => {gcd =>  1000000, fib =>  39000, leq => 480, primes =>  40000, ram =>   3500000, tak => 2100},
   cchr => {gcd => 10000000, fib =>  25000, leq => 360, primes =>  80000, ram =>      4500, tak => 2000},
   c    => {gcd => 35000000, fib => 135000, leq => 450, primes => 350000, ram => 250000000, tak => 3400}
 );
