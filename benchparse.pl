@@ -105,12 +105,12 @@ for my $bench (keys %PDATA) {
   my @plots;
   for my $sys (@{$ORDER{$bench}}) {
     my $data=$benchdata->{$sys};
-    open FILE,">bench-$bench-$sys.dat";
+    open FILE,">plots/bench-$bench-$sys.dat";
     for my $num (sort { $a <=> $b } (grep {/^\d/} (keys %{$data}))) {
       printf FILE ("%i %.16f\n",$num,$data->{$num});
     }
     close FILE;
-    push @plots,"\"bench-$bench-$sys.dat\" using 1:2 title \"$sys\" with line";
+    push @plots,"\"plots/bench-$bench-$sys.dat\" using 1:2 title \"$sys\" with line";
   }
   print PIPE "set terminal postscript enhanced color\n";
   print PIPE "set output \"plots/bench-$bench.ps\"\n";
