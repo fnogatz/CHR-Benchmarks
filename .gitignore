@@ -20,3 +20,5 @@ jchr/leq/LeqHandler.java
 jchr/primes/PrimesHandler.java
 jchr/ram/RamHandler.java
 jchr/tak/TakTabHandler.java
+
+bench.out

@@ -7,6 +7,7 @@ LDFLAGS := -Wl,-O2 -Wl,--enable-new-dtags -Wl,--sort-common -Wl,--strip-all
 all: install prepare
 
 install: swi.install jchr.install cchr.install c.install
+	apt-get install gnuplot
 
 prepare: swi.prepare jchr.prepare cchr.prepare c.prepare
 
@@ -14,6 +15,12 @@ clean: swi.clean jchr.clean cchr.clean c.clean
 
 bench:
 	./bench.pl
+
+bench.save:
+	./bench.pl > bench.out
+
+plot:
+	./benchparse.pl bench.out
 
 test: swi.test jchr.test cchr.test c.test
 
