@@ -128,7 +128,7 @@ cchr.install: cchr.preinstall
 	cd cchr/_cchr && make
 
 cchr.clean:
-	rm -r --interactive=never cchr/_cchr-libs && find cchr/*/ -type f -name '*.c' -delete	
+	rm -r --interactive=never cchr/_cchr-libs && find cchr/*/ -type f -name '*.c' -not -path cchr/_cchr/* -delete	
 
 cchr.prepare: cchr.prepare.gcd cchr.prepare.fib cchr.prepare.leq cchr.prepare.primes cchr.prepare.ram cchr.prepare.tak
 
