@@ -6,5 +6,15 @@ cchr/_cchr/intermediate
 cchr/_cchr/bin
 cchr/**/*.c
 cchr/**/*.out
+cchr/_cchr-libs
 
 jchr/KULeuven_JCHR.jar
+jchr/_jchr-libs
+jchr/**/*.class
+
+jchr/fib/runtime
+jchr/fib/FibBoAllHandler.java
+jchr/leq/LeqHandler.java
+jchr/primes/PrimesHandler.java
+jchr/ram/RamHandler.java
+jchr/tak/TakTabHandler.java
