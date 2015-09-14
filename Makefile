@@ -90,7 +90,7 @@ jchr.prepare.tak:
 	cd jchr/tak && java -classpath ../_jchr-libs/antlr.jar:../_jchr-libs/args4j.jar:../_jchr-libs/freemarker.jar:../_jchr-libs/jack-evaluator:../KULeuven_JCHR.jar:. compiler.Main tak.jchr && sed -i 's/package ;//g' TakTabHandler.java && javac -classpath ../KULeuven_JCHR.jar:../_jchr-libs/jack-evaluator:. TakTabHandler.java && javac -classpath ../KULeuven_JCHR.jar:../_jchr-libs/jack-evaluator:. Tak.java
 
 jchr.clean:
-	rm -r --interactive=never jchr/_jchr-libs jchr/KULeuven_JCHR.jar
+	rm -r --interactive=never jchr/_jchr-libs jchr/KULeuven_JCHR.jar 2> /dev/null
 
 jchr.bench:
 	./bench.pl jchr
@@ -128,7 +128,7 @@ cchr.install: cchr.preinstall
 	cd cchr/_cchr && make
 
 cchr.clean:
-	rm -r --interactive=never cchr/_cchr-libs && find cchr/*/ -type f -name '*.c' -not -path cchr/_cchr/* -delete	
+	rm -r --interactive=never cchr/_cchr-libs 2> /dev/null && find cchr/*/ -type f -name '*.c' -not -path cchr/_cchr/* -delete	
 
 cchr.prepare: cchr.prepare.gcd cchr.prepare.fib cchr.prepare.leq cchr.prepare.primes cchr.prepare.ram cchr.prepare.tak
 
