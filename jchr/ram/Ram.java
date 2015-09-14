@@ -23,7 +23,7 @@ public class Ram {
             handler.tellProg(3,1,Instruction.CJUMP,2,4);
             handler.tellProg(4,0,Instruction.HALT,0,0);
             handler.tellProg_counter(1);
-
+/*
             // Afterwards we can lookup the constraints in the 
             // resulting constraint store: 
             Collection<RamHandler.MemConstraint> mems = handler.getMemConstraints();
@@ -32,6 +32,7 @@ public class Ram {
                 System.out.println("mem("+m.get$0()+","+m.get$1()+")");
             }
             System.out.println("ok!");
+*/
         } catch (NumberFormatException e) {
             System.err.println(e.getMessage());
             printUsage();

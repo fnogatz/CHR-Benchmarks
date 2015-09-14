@@ -17,6 +17,7 @@ public class Fib {
 
             // Next we tell the JCHR handler the following two constraints:             
             handler.tellInit(i0);
+/*
             // Afterwards we can lookup the constraints in the 
             // resulting constraint store: 
             Collection<FibBoAllHandler.FibConstraint> fibs = handler.getFibConstraints();
@@ -24,6 +25,7 @@ public class Fib {
             for (FibBoAllHandler.FibConstraint f : fibs) {
                 if (f.getN()==i0) System.out.println("fib("+f.getN()+","+f.getM()+")");
             }
+*/
         } catch (NumberFormatException e) {
             System.err.println(e.getMessage());
             printUsage();

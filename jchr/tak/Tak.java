@@ -16,7 +16,7 @@ public class Tak {
             TakTabHandler handler = new TakTabHandler(solver);
             LogicalInt logint = new LogicalInt();
             handler.tellTak(x,y,z,logint);
-            System.out.println(logint.getValue());
+//            System.out.println(logint.getValue());
         } catch (NumberFormatException e) {
             System.err.println(e.getMessage());
             printUsage();

@@ -17,7 +17,7 @@ public class Primes {
 
             // Next we tell the JCHR handler the following two constraints:             
             handler.tellCandidate(i0);
-
+/*
             // Afterwards we can lookup the constraints in the 
             // resulting constraint store: 
 
@@ -26,6 +26,7 @@ public class Primes {
             for (PrimesHandler.PrimeConstraint f : prims) {
               System.out.println("prime("+f.get$0()+")");
             }
+*/
         } catch (NumberFormatException e) {
             System.err.println(e.getMessage());
             printUsage();

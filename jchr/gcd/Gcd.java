@@ -19,7 +19,7 @@ public class Gcd {
             // Next we tell the JCHR handler the following two constraints:             
             handler.tellGcd(i0);
             handler.tellGcd(i1);
-            
+/*            
             // Afterwards we can lookup the constraints in the 
             // resulting constraint store: 
             Collection<GcdHandler.GcdConstraint> gcds = handler.getGcdConstraints();
@@ -33,7 +33,7 @@ public class Gcd {
             
             // Simply print out the result:
             System.out.printf(" ==>  gcd(%d, %d) == %d", i0, i1, gcd);
-            
+*/
         } catch (NumberFormatException e) {
             System.err.println(e.getMessage());
             printUsage();
