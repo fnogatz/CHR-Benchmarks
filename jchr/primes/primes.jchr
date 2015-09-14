@@ -1,0 +1,9 @@
+public handler primes {
+    public constraint candidate(int);
+    local constraint prime(int);
+
+    rules {
+	gen @ candidate(N) <=> N>1 | prime(N), candidate(IntUtil.dec(N)).
+	sift @ prime(Y) \ prime(X) <=> IntUtil.modNull(X, Y) | true.
+    }
+}
