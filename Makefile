@@ -21,7 +21,7 @@ bench:
 swi: swi.install swi.prepare
 
 swi.install:
-	apt-get install swi
+	apt-get install swi-prolog
 
 swi.prepare:
 	find swi/* -type f -name '*.pl' -exec swipl -O -L0 -G0 -T0 --nodebug --quiet -o "{}".qlf -c "{}" ";"
