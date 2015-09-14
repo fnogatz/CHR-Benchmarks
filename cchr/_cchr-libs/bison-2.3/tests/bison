@@ -1,0 +1,8 @@
+#! /bin/bash
+# tests/bison.  Generated from bison.in by configure.
+# Wrapper around a non installed bison to make it work as an installed one.
+
+# Use the shipped files, not those installed.
+BISON_PKGDATADIR='/home/fnogatz/Development/github/CHR-Benchmarks/cchr/_cchr-libs/bison-2.3/tests/../data'
+export BISON_PKGDATADIR
+exec $PREBISON '/home/fnogatz/Development/github/CHR-Benchmarks/cchr/_cchr-libs/bison-2.3/tests/.././src/bison' ${1+"$@"}

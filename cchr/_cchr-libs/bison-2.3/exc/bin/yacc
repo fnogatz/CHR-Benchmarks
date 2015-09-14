@@ -1,0 +1,2 @@
+#! /bin/sh
+exec /home/fnogatz/Development/github/CHR-Benchmarks/cchr/_cchr-libs/bison-2.3/exc/bin/bison -y "$@"
