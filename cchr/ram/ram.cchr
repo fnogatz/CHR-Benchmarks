@@ -61,8 +61,8 @@ int main(int argc, char **argv) {
   cchr_add_prog_5(4,0,HALT,0,0);
   cchr_add_prog_counter_1(1);
   int mem[4];
-  cchr_consloop(j,mem_2,{printf("mem(%i,%i)\n",cchr_consarg(j,mem_2,1),cchr_consarg(j,mem_2,2)); int p=cchr_consarg(j,mem_2,1); if (p<4) mem[p]=cchr_consarg(j,mem_2,2);});
-  if (mem[1]==1 && mem[2]==0 && mem[3]==N) printf("ok!\n");
+/*  cchr_consloop(j,mem_2,{printf("mem(%i,%i)\n",cchr_consarg(j,mem_2,1),cchr_consarg(j,mem_2,2)); int p=cchr_consarg(j,mem_2,1); if (p<4) mem[p]=cchr_consarg(j,mem_2,2);});
+  if (mem[1]==1 && mem[2]==0 && mem[3]==N) printf("ok!\n"); */
   cchr_runtime_free();
   return 0;
 }

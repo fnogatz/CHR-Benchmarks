@@ -29,7 +29,7 @@ int main(int argc, char **argv) {
   cchr_runtime_init();
   int a=(argc>1 ? (int)strtol(argv[1],NULL,0) : 92);
   cchr_add_init_1(a);
-  cchr_consloop(j,fib_2,{ if (cchr_consarg(j,fib_2,1)==a) gmp_printf("fib(%i,%Zd)\n",(int)cchr_consarg(j,fib_2,1),cchr_consarg(j,fib_2,2).v);});
+/*  cchr_consloop(j,fib_2,{ if (cchr_consarg(j,fib_2,1)==a) gmp_printf("fib(%i,%Zd)\n",(int)cchr_consarg(j,fib_2,1),cchr_consarg(j,fib_2,2).v);}); */
   cchr_runtime_free();
   return 0;
 }

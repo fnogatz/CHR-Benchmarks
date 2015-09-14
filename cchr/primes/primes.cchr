@@ -18,7 +18,7 @@ int main(int argc, char **argv) {
   cchr_runtime_init();
   int a=(argc>1 ? (int)strtol(argv[1],NULL,0) : 92);
   cchr_add_candidate_1(a);
-  cchr_consloop(j,prime_1,{printf("prime(%i)\n",cchr_consarg(j,prime_1,1));});
+/*  cchr_consloop(j,prime_1,{printf("prime(%i)\n",cchr_consarg(j,prime_1,1));});*/
   cchr_runtime_free();
   return 0;
 }

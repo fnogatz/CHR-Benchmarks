@@ -17,8 +17,8 @@ int main(int argc, char **argv) {
   cchr_runtime_init();
   cchr_add_gcd_1(a1);
   cchr_add_gcd_1(a2);
-  printf("size=%u\n",(unsigned int)(sizeof(cchr_entry_t)));
-  cchr_consloop(j,gcd_1,{printf("gcd(%llu,%llu)=%llu\n",(unsigned long long)a1,(unsigned long long)a2,(unsigned long long)cchr_consarg(j,gcd_1,1));});
+/*  printf("size=%u\n",(unsigned int)(sizeof(cchr_entry_t)));
+  cchr_consloop(j,gcd_1,{printf("gcd(%llu,%llu)=%llu\n",(unsigned long long)a1,(unsigned long long)a2,(unsigned long long)cchr_consarg(j,gcd_1,1));});*/
   cchr_runtime_free();
   return 0;
 }

@@ -58,7 +58,7 @@ int main(int argc, char **argv) {
   int z=(argc>3 ? (int)strtol(argv[3],NULL,0) : 6);
   log_int_t answer=log_int_t_create();
   cchr_add_tak_4(x,y,z,answer);
-  printf("answer=%llu\n",log_int_t_hasval(answer) ? (unsigned long long)log_int_t_getval(answer) : -1);
+/*  printf("answer=%llu\n",log_int_t_hasval(answer) ? (unsigned long long)log_int_t_getval(answer) : -1); */
   cchr_runtime_free();
   log_int_t_destruct(answer); 
   return 0;
