@@ -26,6 +26,6 @@ int genPrimes(int upto) {
 int main(int argc, char** argv) {
   int n=argc>1 ? strtol(argv[1],NULL,0) : 7500;
   int r=genPrimes(n);
-  printf("%i\n",r);
+/*  printf("%i\n",r); */
   return 0;
 }

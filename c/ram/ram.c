@@ -79,6 +79,6 @@ int main(int argc, char **argv) {
   prog_t progke[]={{0,HALT,0,0},{2,ADD,1,3},{3,SUB,1,2},{1,CJUMP,2,4},{0,HALT,0,0}};
   int mem[]={0,1,l,0};
   ram(progke,mem,1);
-  printf("%i\n",mem[3]);
+/*  printf("%i\n",mem[3]); */
   return 0;
 }

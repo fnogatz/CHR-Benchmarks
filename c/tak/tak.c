@@ -50,6 +50,6 @@ int main(int argc, char** argv) {
   int b=argc>2 ? strtol(argv[2],NULL,0) : 450;
   int c=argc>3 ? strtol(argv[3],NULL,0) : 405;
   int ret=calcTak(a,b,c);
-  printf("%i\n",ret);
+/*  printf("%i\n",ret); */
   return 0;
 }

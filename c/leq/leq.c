@@ -55,9 +55,9 @@ void test(int size) {
   for (int i=0; i<size; i++) {
     addleq(size,i,(i+1)%size,vars,cmp);
   }
-  for (int i=0; i<size; i++) {
+/*  for (int i=0; i<size; i++) {
     if (!log_int_t_testeq(vars[i],vars[(i+1)%size])) printf("outch %i != %i\n",i,(i+1)%size);
-  }
+  } */
   for (int i=0; i<size; i++) {
     log_int_t_destruct(vars[i]);
   }

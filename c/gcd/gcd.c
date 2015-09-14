@@ -21,6 +21,6 @@ int main(int argc, char **argv) {
   uint64_t b = (uint64_t)(argc>2 ? strtoull(argv[2],NULL,0) : 5);
   uint64_t r;
   r=gcd(a,b);
-  printf("gcd(%llu)\n",(unsigned long long)r);
+/*  printf("gcd(%llu)\n",(unsigned long long)r); */
   return 0;
 }

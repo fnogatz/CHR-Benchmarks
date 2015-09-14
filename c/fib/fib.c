@@ -17,7 +17,7 @@ void fib_gmp(int upto) {
     mpz_init(nums[j%3].v);
     mpz_add(nums[j%3].v,nums[(j+1)%3].v,nums[(j+2)%3].v);
   }
-  gmp_printf("fib(%i,%Zd)\n",upto,nums[upto%3].v);
+/*  gmp_printf("fib(%i,%Zd)\n",upto,nums[upto%3].v); */
   for (int j=0; j<=2; j++) {
     mpz_clear(nums[j].v);
   }
