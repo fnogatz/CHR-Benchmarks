@@ -1,0 +1,17 @@
+var CHR = require('chr')
+var chr = new CHR()
+
+chr`
+  cleanup @ gcd(0) <=> true
+  step    @ gcd(N) \\ gcd(M) <=> 0 < N, N <= M | gcd(M - N)
+`
+
+function test (a,b) {
+  chr.gcd(a).then(function () {
+    return chr.gcd(b)
+  }).then(function () {
+    console.log('done')
+  })
+}
+
+module.exports = test
