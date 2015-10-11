@@ -42,7 +42,7 @@ my %MAX=(
   jchr => { gcd =>  3700000, fib =>   39000, leq => 490, primes =>   40000, ram =>    3400000, tak =>  2450},
   cchr => { gcd => 16000000, fib =>  400000, leq => 360, primes =>  260000, ram =>    8500000, tak =>  3100},
   c    => { gcd => 85000000, fib => 1600000, leq => 360, primes => 1120000, ram => 1200000000, tak => 65000},
-  node => { gcd =>    10000 }
+  node => { gcd =>    30000 }
 );
 
 sub execBench {
