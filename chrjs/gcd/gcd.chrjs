@@ -14,4 +14,4 @@ function test (a,b) {
   })
 }
 
-module.exports = test
+test(parseInt(process.argv[2]), parseInt(process.argv[3]))
