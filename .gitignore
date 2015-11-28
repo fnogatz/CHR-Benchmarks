@@ -24,3 +24,4 @@ jchr/tak/TakTabHandler.java
 bench.out
 
 plots
+!plots/example-plot-gcd.png
