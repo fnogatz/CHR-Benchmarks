@@ -27,7 +27,7 @@ my %SYSTEMS=(
   cchr  => sub { my ($prog,@args)=@_; return ("cchr/$prog/$prog.out",@args); },
   c     => sub { my ($prog,@args)=@_; return ("c/$prog/$prog.out",@args); },
   chrjs => sub { my ($prog,@args)=@_; return ("node chrjs/$prog/$prog.chr.js",@args); },
-  js    => sub { my ($prog,@args)=@_; return ("node vanillajs/$prog/$prog.js",@args); }
+  js    => sub { my ($prog,@args)=@_; return ("node js/$prog/$prog.js",@args); }
 );
 
 my %SYSTBL=(
