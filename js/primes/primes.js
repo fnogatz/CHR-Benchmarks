@@ -1,8 +1,9 @@
 module.exports = test
 
 function test (a) {
+  var res = primes(a)
+  //console.log(res)
   console.log('done')
-  //console.log(primes(a))
 }
 
 function primes (n) {

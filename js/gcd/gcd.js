@@ -1,7 +1,9 @@
 module.exports = test
 
 function test (a, b) {
-  console.log(gcd(a, b))
+  var res = gcd(a, b)
+  //console.log(res)
+  console.log('done')
 }
 
 function gcd (a, b) {

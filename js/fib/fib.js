@@ -1,7 +1,9 @@
 module.exports = test
 
 function test (a) {
-  console.log(fib(a))
+  var res = fib(a)
+  //console.log(res)
+  console.log('done')
 }
 
 function fib(num){
