@@ -35,8 +35,8 @@ my %SYSTBL=(
   jchr  => { gcd => "Gcd", fib => "Fib", leq => "Leq", primes => "Primes", ram => "Ram", tak => "Tak"},
   cchr  => { gcd => "gcd", fib => "fib", leq => "leq", primes => "primes", ram => "ram", tak => "tak"},
   c     => { gcd => "gcd", fib => "fib", leq => "leq", primes => "primes", ram => "ram", tak => "tak"},
-  chrjs => { gcd => "gcd", fib => "fib",  },
-  js    => { gcd => "gcd", fib => "fib",               primes => "primes" }
+  chrjs => { gcd => "gcd", fib => "fib",               primes => "primes", ram => "ram"},
+  js    => { gcd => "gcd", fib => "fib",               primes => "primes"}
 );
 
 my %MAX=(
