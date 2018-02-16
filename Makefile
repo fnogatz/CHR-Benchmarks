@@ -47,17 +47,17 @@ swi.bench:
 swi.test: swi.test.gcd swi.test.fib swi.test.leq swi.test.primes swi.test.ram swi.test.tak
 	@echo "swi: done"
 swi.test.gcd:
-	echo "gcd:test(5,10)." | swipl -x swi/gcd/gcd.pl.qlf
+	swipl -x swi/gcd/gcd.pl.qlf -t "gcd:test(5,10)"
 swi.test.fib:
-	echo "fib:test(10)." | swipl -x swi/fib/fib.pl.qlf
+	swipl -x swi/fib/fib.pl.qlf -t "fib:test(10)"
 swi.test.leq:
-	echo "leq:test(10)." | swipl -x swi/leq/leq.pl.qlf
+	swipl -x swi/leq/leq.pl.qlf -t "leq:test(10)"
 swi.test.primes:
-	echo "primes:test(10)." | swipl -x swi/primes/primes.pl.qlf
+	swipl -x swi/primes/primes.pl.qlf -t "primes:test(10)"
 swi.test.ram:
-	echo "ram:test(10)." | swipl -x swi/ram/ram.pl.qlf
+	swipl -x swi/ram/ram.pl.qlf -t "ram:test(10)"
 swi.test.tak:
-	echo "tak:test(5,3,2)." | swipl -x swi/tak/tak.pl.qlf
+	swipl -x swi/tak/tak.pl.qlf -t "tak:test(5,3,2)"
 
 
 # JCHR
