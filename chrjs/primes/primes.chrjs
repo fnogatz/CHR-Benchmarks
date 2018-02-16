@@ -1,0 +1,13 @@
+{
+function test (a) {
+  var chr = CHR()
+  chr.upto(a)
+  console.log('done')
+  //console.log(chr.Store.toString())
+}
+
+test(parseInt(process.argv[2]))
+}
+
+gen   @ upto(N) <=> N > 1 | upto(N-1), prime(N)
+sift  @ prime(X) \ prime(Y) <=> Y % X === 0 | true

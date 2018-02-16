@@ -1,17 +1,14 @@
-var CHR = require('chr')
-var chr = new CHR()
-
-chr`
-  cleanup @ gcd(0) <=> true
-  step    @ gcd(N) \\ gcd(M) <=> 0 < N, N <= M | gcd(M - N)
-`
-
+{
 function test (a,b) {
-  chr.gcd(a).then(function () {
-    return chr.gcd(b)
-  }).then(function () {
-    console.log('done')
-  })
+  var chr = CHR()
+  chr.gcd(a)
+  chr.gcd(b)
+  console.log('done')
+  //console.log(chr.Store.toString())
 }
 
 test(parseInt(process.argv[2]), parseInt(process.argv[3]))
+}
+
+cleanup @ gcd(0) <=> true
+step    @ gcd(N) \ gcd(M) <=> 0 < N, N <= M | gcd(M - N)

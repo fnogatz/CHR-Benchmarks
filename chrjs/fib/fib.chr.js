@@ -9,15 +9,14 @@
   *
   */
 
-function test (a,b) {
+function test (a) {
   var chr = CHR()
-  chr.gcd(a)
-  chr.gcd(b)
+  chr.upto(a)
   console.log('done')
   //console.log(chr.Store.toString())
 }
 
-test(parseInt(process.argv[2]), parseInt(process.argv[3]))
+test(parseInt(process.argv[2]))
 
 
 function CHR () {
@@ -266,96 +265,158 @@ function CHR () {
   var stack = []
   // var history = new History()
   
-  function __gcd_1_0 (constraint, __n) {
-    __n = __n || 0
-
-    if (constraint.args[0] !== 0) {
-      constraint.cont = [__gcd_1_1, 0]
-      stack.push(constraint)
-      return
-    }
-
-    // active constraint gets removed
-  }
-
-  function __gcd_1_1 (constraint, __n) {
-    __n = __n || 0
-
-    var M = constraint.args[0]
-
-    var constraintPattern = [ "gcd/1", "_" ]
-    var lookupResult = chr.Store.lookupResume(1, constraintPattern, constraint, __n)
-    if (lookupResult === false) {
-      constraint.cont = [__gcd_1_2, 0]
-      stack.push(constraint)
-      return
-    }
-    var constraints = lookupResult.res
-
-    var N = constraints[0].args[0]
-
-    if (!(0 < N && N <= M)) {
-      constraint.cont = [__gcd_1_1, __n + 1]
-      stack.push(constraint)
-      return
-    }
-
-    ;(function () {
-      var _c = new Constraint("gcd", 1, [ M - N ])
-      _c.cont = [__gcd_1_0, 0]
-      stack.push(_c)
-    })()
-
-    // active constraint gets removed
-  }
-
-  function __gcd_1_2 (constraint, __n) {
+  function __upto_1_0 (constraint, __n) {
     __n = __n || 0
 
     var N = constraint.args[0]
 
-    var constraintPattern = [ "_", "gcd/1" ]
+    ;(function () {
+      var _c = new Constraint("fib", 2, [ 0, 1 ])
+      _c.cont = [__fib_2_0, 0]
+      stack.push(_c)
+    })()
+
+    ;(function () {
+      var _c = new Constraint("fib", 2, [ 1, 1 ])
+      _c.cont = [__fib_2_0, 0]
+      stack.push(_c)
+    })()
+
+    constraint.cont = [__upto_1_1, 0]
+    stack.push(constraint)
+    return
+  }
+
+  function __fib_2_0 (constraint, __n) {
+    __n = __n || 0
+
+    var N1 = constraint.args[0]
+    var M1 = constraint.args[1]
+
+    var constraintPattern = [ "upto/1", "fib/2", "_" ]
     var lookupResult = chr.Store.lookupResume(1, constraintPattern, constraint, __n)
     if (lookupResult === false) {
-      constraint.cont = [__gcd_1_3, 0]
+      constraint.cont = [__fib_2_1, 0]
       stack.push(constraint)
       return
     }
     var constraints = lookupResult.res
 
-    var M = constraints[1].args[0]
+    var Max = constraints[0].args[0]
 
-    if (!(0 < N && N <= M)) {
-      constraint.cont = [__gcd_1_2, __n + 1]
+    var N2 = constraints[1].args[0]
+    var M2 = constraints[1].args[1]
+
+    if (!(Max > N2 && N2 === (N1 + 1))) {
+      constraint.cont = [__fib_2_0, __n + 1]
       stack.push(constraint)
       return
     }
 
-    chr.Store.remove(constraints[1])
-
     ;(function () {
-      var _c = new Constraint("gcd", 1, [ M - N ])
-      _c.cont = [__gcd_1_0, 0]
+      var _c = new Constraint("fib", 2, [ N2 + 1, M1 + M2 ])
+      _c.cont = [__fib_2_0, 0]
       stack.push(_c)
     })()
 
-    constraint.cont = [__gcd_1_2, __n + 1]
+    // active constraint gets removed
+  }
+
+  function __fib_2_1 (constraint, __n) {
+    __n = __n || 0
+
+    var N2 = constraint.args[0]
+    var M2 = constraint.args[1]
+
+    var constraintPattern = [ "upto/1", "_", "fib/2" ]
+    var lookupResult = chr.Store.lookupResume(1, constraintPattern, constraint, __n)
+    if (lookupResult === false) {
+      constraint.cont = [__fib_2_2, 0]
+      stack.push(constraint)
+      return
+    }
+    var constraints = lookupResult.res
+
+    var Max = constraints[0].args[0]
+
+    var N1 = constraints[2].args[0]
+    var M1 = constraints[2].args[1]
+
+    if (!(Max > N2 && N2 === (N1 + 1))) {
+      constraint.cont = [__fib_2_1, __n + 1]
+      stack.push(constraint)
+      return
+    }
+
+    chr.Store.remove(constraints[2])
+
+    ;(function () {
+      var _c = new Constraint("fib", 2, [ N2 + 1, M1 + M2 ])
+      _c.cont = [__fib_2_0, 0]
+      stack.push(_c)
+    })()
+
+    constraint.cont = [__fib_2_1, __n + 1]
     stack.push(constraint)
     return
   }
 
-  function __gcd_1_3 (constraint) {
+  function __upto_1_1 (constraint, __n) {
+    __n = __n || 0
+
+    var Max = constraint.args[0]
+
+    var constraintPattern = [ "_", "fib/2", "fib/2" ]
+    var lookupResult = chr.Store.lookupResume(1, constraintPattern, constraint, __n)
+    if (lookupResult === false) {
+      constraint.cont = [__upto_1_2, 0]
+      stack.push(constraint)
+      return
+    }
+    var constraints = lookupResult.res
+
+    var N2 = constraints[1].args[0]
+    var M2 = constraints[1].args[1]
+
+    var N1 = constraints[2].args[0]
+    var M1 = constraints[2].args[1]
+
+    if (!(Max > N2 && N2 === (N1 + 1))) {
+      constraint.cont = [__upto_1_1, __n + 1]
+      stack.push(constraint)
+      return
+    }
+
+    chr.Store.remove(constraints[2])
+
+    ;(function () {
+      var _c = new Constraint("fib", 2, [ N2 + 1, M1 + M2 ])
+      _c.cont = [__fib_2_0, 0]
+      stack.push(_c)
+    })()
+
+    constraint.cont = [__upto_1_1, __n + 1]
+    stack.push(constraint)
+    return
+  }
+
+  function __upto_1_2 (constraint) {
     constraint.cont = null
     chr.Store.add(constraint)
   }
 
-  function gcd () {
+  function __fib_2_2 (constraint) {
+    constraint.cont = null
+    chr.Store.add(constraint)
+  }
+
+  function upto () {
     var args = Array.prototype.slice.call(arguments)
     var arity = arguments.length
-    var functor = "gcd/" + arity
-    var constraint = new Constraint("gcd", arity, args)
+    var functor = "upto/" + arity
+    var constraint = new Constraint("upto", arity, args)
     if (arity === 1) {
-      constraint.cont = [__gcd_1_0, ]
+      constraint.cont = [__upto_1_0, ]
     } else {
       throw new Error("Undefined constraint: " + functor)
     }
@@ -364,7 +425,23 @@ function CHR () {
     trampoline()
   }
 
-  chr.gcd = gcd
+  function fib () {
+    var args = Array.prototype.slice.call(arguments)
+    var arity = arguments.length
+    var functor = "fib/" + arity
+    var constraint = new Constraint("fib", arity, args)
+    if (arity === 2) {
+      constraint.cont = [__fib_2_0, ]
+    } else {
+      throw new Error("Undefined constraint: " + functor)
+    }
+    stack.push(constraint)
+
+    trampoline()
+  }
+
+  chr.upto = upto
+  chr.fib = fib
 
   return chr
 }

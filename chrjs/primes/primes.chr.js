@@ -9,15 +9,14 @@
   *
   */
 
-function test (a,b) {
+function test (a) {
   var chr = CHR()
-  chr.gcd(a)
-  chr.gcd(b)
+  chr.upto(a)
   console.log('done')
   //console.log(chr.Store.toString())
 }
 
-test(parseInt(process.argv[2]), parseInt(process.argv[3]))
+test(parseInt(process.argv[2]))
 
 
 function CHR () {
@@ -266,96 +265,103 @@ function CHR () {
   var stack = []
   // var history = new History()
   
-  function __gcd_1_0 (constraint, __n) {
+  function __upto_1_0 (constraint, __n) {
     __n = __n || 0
 
-    if (constraint.args[0] !== 0) {
-      constraint.cont = [__gcd_1_1, 0]
-      stack.push(constraint)
-      return
-    }
+    var N = constraint.args[0]
 
-    // active constraint gets removed
-  }
-
-  function __gcd_1_1 (constraint, __n) {
-    __n = __n || 0
-
-    var M = constraint.args[0]
-
-    var constraintPattern = [ "gcd/1", "_" ]
-    var lookupResult = chr.Store.lookupResume(1, constraintPattern, constraint, __n)
-    if (lookupResult === false) {
-      constraint.cont = [__gcd_1_2, 0]
-      stack.push(constraint)
-      return
-    }
-    var constraints = lookupResult.res
-
-    var N = constraints[0].args[0]
-
-    if (!(0 < N && N <= M)) {
-      constraint.cont = [__gcd_1_1, __n + 1]
+    if (!(N > 1)) {
+      constraint.cont = [__upto_1_1, 0]
       stack.push(constraint)
       return
     }
 
     ;(function () {
-      var _c = new Constraint("gcd", 1, [ M - N ])
-      _c.cont = [__gcd_1_0, 0]
+      var _c = new Constraint("upto", 1, [ N - 1 ])
+      _c.cont = [__upto_1_0, 0]
+      stack.push(_c)
+    })()
+
+    ;(function () {
+      var _c = new Constraint("prime", 1, [ N ])
+      _c.cont = [__prime_1_0, 0]
       stack.push(_c)
     })()
 
     // active constraint gets removed
   }
 
-  function __gcd_1_2 (constraint, __n) {
+  function __prime_1_0 (constraint, __n) {
     __n = __n || 0
 
-    var N = constraint.args[0]
+    var Y = constraint.args[0]
 
-    var constraintPattern = [ "_", "gcd/1" ]
+    var constraintPattern = [ "prime/1", "_" ]
     var lookupResult = chr.Store.lookupResume(1, constraintPattern, constraint, __n)
     if (lookupResult === false) {
-      constraint.cont = [__gcd_1_3, 0]
+      constraint.cont = [__prime_1_1, 0]
       stack.push(constraint)
       return
     }
     var constraints = lookupResult.res
 
-    var M = constraints[1].args[0]
+    var X = constraints[0].args[0]
 
-    if (!(0 < N && N <= M)) {
-      constraint.cont = [__gcd_1_2, __n + 1]
+    if (!((Y % X) === 0)) {
+      constraint.cont = [__prime_1_0, __n + 1]
+      stack.push(constraint)
+      return
+    }
+
+    // active constraint gets removed
+  }
+
+  function __prime_1_1 (constraint, __n) {
+    __n = __n || 0
+
+    var X = constraint.args[0]
+
+    var constraintPattern = [ "_", "prime/1" ]
+    var lookupResult = chr.Store.lookupResume(1, constraintPattern, constraint, __n)
+    if (lookupResult === false) {
+      constraint.cont = [__prime_1_2, 0]
+      stack.push(constraint)
+      return
+    }
+    var constraints = lookupResult.res
+
+    var Y = constraints[1].args[0]
+
+    if (!((Y % X) === 0)) {
+      constraint.cont = [__prime_1_1, __n + 1]
       stack.push(constraint)
       return
     }
 
     chr.Store.remove(constraints[1])
 
-    ;(function () {
-      var _c = new Constraint("gcd", 1, [ M - N ])
-      _c.cont = [__gcd_1_0, 0]
-      stack.push(_c)
-    })()
-
-    constraint.cont = [__gcd_1_2, __n + 1]
+    constraint.cont = [__prime_1_1, __n + 1]
     stack.push(constraint)
     return
   }
 
-  function __gcd_1_3 (constraint) {
+  function __upto_1_1 (constraint) {
     constraint.cont = null
     chr.Store.add(constraint)
   }
 
-  function gcd () {
+  function __prime_1_2 (constraint) {
+    constraint.cont = null
+    chr.Store.add(constraint)
+  }
+
+  function upto () {
     var args = Array.prototype.slice.call(arguments)
     var arity = arguments.length
-    var functor = "gcd/" + arity
-    var constraint = new Constraint("gcd", arity, args)
+    var functor = "upto/" + arity
+    var constraint = new Constraint("upto", arity, args)
     if (arity === 1) {
-      constraint.cont = [__gcd_1_0, ]
+      constraint.cont = [__upto_1_0, ]
     } else {
       throw new Error("Undefined constraint: " + functor)
     }
@@ -364,7 +370,23 @@ function CHR () {
     trampoline()
   }
 
-  chr.gcd = gcd
+  function prime () {
+    var args = Array.prototype.slice.call(arguments)
+    var arity = arguments.length
+    var functor = "prime/" + arity
+    var constraint = new Constraint("prime", arity, args)
+    if (arity === 1) {
+      constraint.cont = [__prime_1_0, ]
+    } else {
+      throw new Error("Undefined constraint: " + functor)
+    }
+    stack.push(constraint)
+
+    trampoline()
+  }
+
+  chr.upto = upto
+  chr.prime = prime
 
   return chr
 }

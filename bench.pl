@@ -22,27 +22,30 @@ my %BENCHERS=(
 );
 
 my %SYSTEMS=(
-  swi  => sub { my ($prog,@args)=@_; return ('./swi/bench.sh',$prog,join(',',@args)); },
-  jchr => sub { my ($prog,@args)=@_; return ('java','-classpath','jchr/KULeuven_JCHR.jar:jchr/_jchr-libs/jack-evaluator:jchr/'.(lc $prog),$prog,@args); },
-  cchr => sub { my ($prog,@args)=@_; return ("cchr/$prog/$prog.out",@args); },
-  c    => sub { my ($prog,@args)=@_; return ("c/$prog/$prog.out",@args); },
-  node => sub { my ($prog,@args)=@_; return ("node chrjs/$prog/$prog.chr.js",@args); }
+  swi   => sub { my ($prog,@args)=@_; return ('./swi/bench.sh',$prog,join(',',@args)); },
+  jchr  => sub { my ($prog,@args)=@_; return ('java','-classpath','jchr/KULeuven_JCHR.jar:jchr/_jchr-libs/jack-evaluator:jchr/'.(lc $prog),$prog,@args); },
+  cchr  => sub { my ($prog,@args)=@_; return ("cchr/$prog/$prog.out",@args); },
+  c     => sub { my ($prog,@args)=@_; return ("c/$prog/$prog.out",@args); },
+  chrjs => sub { my ($prog,@args)=@_; return ("node chrjs/$prog/$prog.chr.js",@args); },
+  js    => sub { my ($prog,@args)=@_; return ("node vanillajs/$prog/$prog.js",@args); }
 );
 
 my %SYSTBL=(
-  swi  => { gcd => "gcd", fib => "fib", leq => "leq", primes => "primes", ram => "ram", tak => "tak"},
-  jchr => { gcd => "Gcd", fib => "Fib", leq => "Leq", primes => "Primes", ram => "Ram", tak => "Tak"},
-  cchr => { gcd => "gcd", fib => "fib", leq => "leq", primes => "primes", ram => "ram", tak => "tak"},
-  c    => { gcd => "gcd", fib => "fib", leq => "leq", primes => "primes", ram => "ram", tak => "tak"},
-  node => { gcd => "gcd" }
+  swi   => { gcd => "gcd", fib => "fib", leq => "leq", primes => "primes", ram => "ram", tak => "tak"},
+  jchr  => { gcd => "Gcd", fib => "Fib", leq => "Leq", primes => "Primes", ram => "Ram", tak => "Tak"},
+  cchr  => { gcd => "gcd", fib => "fib", leq => "leq", primes => "primes", ram => "ram", tak => "tak"},
+  c     => { gcd => "gcd", fib => "fib", leq => "leq", primes => "primes", ram => "ram", tak => "tak"},
+  chrjs => { gcd => "gcd", fib => "fib",  },
+  js    => { gcd => "gcd", fib => "fib",               primes => "primes" }
 );
 
 my %MAX=(
-  swi  => { gcd =>     6600, fib =>  150000, leq => 120, primes =>   31000, ram =>     110000, tak =>  1550},
-  jchr => { gcd =>  3700000, fib =>   39000, leq => 490, primes =>   40000, ram =>    3400000, tak =>  2450},
-  cchr => { gcd => 16000000, fib =>  400000, leq => 360, primes =>  260000, ram =>    8500000, tak =>  3100},
-  c    => { gcd => 85000000, fib => 1600000, leq => 360, primes => 1120000, ram => 1200000000, tak => 65000},
-  node => { gcd =>    30000 }
+  swi   => { gcd =>     6600, fib =>  150000, leq => 120, primes =>   31000, ram =>     110000, tak =>  1550},
+  jchr  => { gcd =>  3700000, fib =>   39000, leq => 490, primes =>   40000, ram =>    3400000, tak =>  2450},
+  cchr  => { gcd => 16000000, fib =>  400000, leq => 360, primes =>  260000, ram =>    8500000, tak =>  3100},
+  c     => { gcd => 85000000, fib => 1600000, leq => 360, primes => 1120000, ram => 1200000000, tak => 65000},
+  chrjs => { gcd =>   100000, fib =>  400000,             primes =>    6000, ram =>      50000},
+  js    => { gcd =>  2000000, fib => 1600000,             primes => 1120000}
 );
 
 sub execBench {

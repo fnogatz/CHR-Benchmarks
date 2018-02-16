@@ -174,6 +174,30 @@ cchr.test.tak:
 	cchr/tak/tak.out 5 3 2
 
 
+# CHR.js (via node.js)
+
+chrjs.prepare: chrjs.prepare.gcd chrjs.prepare.fib chrjs.prepare.primes chrjs.prepare.ram
+
+chrjs.prepare.gcd:
+	chrjs --optimized --function CHR chrjs/gcd/gcd.chrjs > chrjs/gcd/gcd.chr.js
+chrjs.prepare.fib:
+	chrjs --optimized --function CHR chrjs/fib/fib.chrjs > chrjs/fib/fib.chr.js
+chrjs.prepare.primes:
+	chrjs --optimized --function CHR chrjs/primes/primes.chrjs > chrjs/primes/primes.chr.js
+chrjs.prepare.ram:
+	chrjs --optimized --function CHR chrjs/ram/ram.chrjs > chrjs/ram/ram.chr.js
+
+chrjs.test: chrjs.test.gcd chrjs.test.fib chrjs.test.primes chrjs.test.ram
+	@echo "chrjs: done"
+chrjs.test.gcd:
+	node chrjs/gcd/gcd.chr.js 10
+chrjs.test.fib:
+	node chrjs/fib/fib.chr.js 10
+chrjs.test.primes:
+	node chrjs/primes/primes.chr.js 10
+chrjs.test.ram:
+	node chrjs/ram/ram.chr.js 10
+
 # C Native
 
 c: c.install c.prepare
@@ -204,3 +228,20 @@ c.test.ram:
 	c/ram/ram.out 10
 c.test.tak:
 	c/tak/tak.out 5 3 2
+
+
+# Native JavaScript (via node.js)
+
+js: js.install
+
+js.install:
+	@echo "NOTE: You have to manually install node.js!"
+
+js.test: js.test.gcd js.test.fib js.test.primes
+	@echo "js: done"
+js.test.gcd:
+	node js/gcd/gcd.js 10
+js.test.fib:
+	node js/fib/fib.js 10
+js.test.primes:
+	node js/primes/primes.js 10

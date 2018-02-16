@@ -1,0 +1,55 @@
+{
+function test (a) {
+  var chr = CHR()
+
+  chr.mem(1,1)
+  chr.mem(2,a)
+  chr.mem(3,0)
+  chr.prog_counter(1)
+  chr.prog(1,2,['add',1],3)
+  chr.prog(2,3,['sub',1],2)
+  chr.prog(3,1,['cjump', 2],4)
+  chr.prog(4,0,'halt',0)
+
+  console.log('done')
+  //console.log(chr.Store.toString())
+}
+
+test(parseInt(process.argv[2]))
+}
+
+prog(L,L1,[Add, B],A), mem(B,Y) \ mem(A,X), prog_counter(L) <=> 
+    Add === 'add' | mem(A,X+Y), prog_counter(L1)
+
+prog(L,L1,[Sub, B],A), mem(B,Y) \ mem(A,X), prog_counter(L) <=> 
+    Sub === 'sub' | mem(A,X-Y), prog_counter(L1)
+
+prog(L,L1,[Mult, B],A), mem(B,Y) \ mem(A,X), prog_counter(L) <=> 
+    Mult === 'mult' | mem(A,X*Y), prog_counter(L1)
+
+prog(L,L1,[Div, B],A), mem(B,Y) \ mem(A,X), prog_counter(L) <=> 
+    Div === 'div' | mem(A,X/Y >> 0), prog_counter(L1)
+
+
+prog(L,L1,[Move, B],A), mem(B,X) \ mem(A,QQ), prog_counter(L) <=> 
+    Move === 'move' | mem(A,X), prog_counter(L1)
+
+prog(L,L1,[I_Move, B],A), mem(B,C), mem(C,X) \ mem(A,QQ), prog_counter(L) <=> 
+    I_Move === 'i_move' | mem(A,X), prog_counter(L1)
+
+prog(L,L1,[I_Move, B],A), mem(B,X), mem(A,C) \ mem(C,QQ), prog_counter(L) <=> 
+    I_Move === 'move_i' | mem(C,X), prog_counter(L1)
+
+prog(L,L1,[Const, B],A) \ mem(A,QQ), prog_counter(L) <=> 
+    Const === 'const' | mem(A,B), prog_counter(L1)
+
+prog(L,QQ,Jump,A) \ prog_counter(L) <=> 
+    Jump === 'jump' | prog_counter(A)
+
+prog(L,QQ,[Cjump, R1],A), mem(R2,X) \ prog_counter(L) <=> X === 0, Cjump === 'cjump', R1 === R2 |
+    prog_counter(A)
+
+prog(L,L1,[Cjump, R1],QQ), mem(R2,X) \ prog_counter(L) <=> X !== 0, Cjump === 'cjump', R1 === R2 |
+    prog_counter(L1)
+
+prog(L,A,Halt,B) \ prog_counter(L) <=> Halt === 'halt' | true
