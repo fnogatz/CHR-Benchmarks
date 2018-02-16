@@ -25,7 +25,7 @@ plot: plot.mkdir
 plot.mkdir:
 	mkdir -p plots
 
-test: swi.test jchr.test cchr.test c.test
+test: swi.test jchr.test cchr.test chrjs.test c.test js.test
 
 
 # SWI-Prolog
