@@ -1,36 +1,31 @@
 module.exports = test
 
 function test (a) {
-  var res = primes(a)
-  //console.log(res)
-  console.log('done')
+  var res = genPrimes(a)
+  console.log(res)
 }
 
-function primes (n) {
-  var array = []
-  var upperLimit = Math.sqrt(n)
-  var output = []
-  var i
-
-  for (i = 0; i < n; i++) {
-    array.push(true)
-  }
-
-  for (i = 2; i <= upperLimit; i++) {
-    if (array[i]) {
-      for (var j = i * i; j < n; j += i) {
-        array[j] = false;
+function genPrimes (upto) {
+  var primes = []
+  primes[0] = 2
+  var n = 1
+  var k
+  var t
+  for (var j = 3; j <= upto; j++) {
+    k = 0
+    while (k < n) {
+      t = primes[k]
+      if ((j % t) == 0) {
+        break
       }
+      k++
+    }
+    if (k === n) {
+      primes[n++] = j
     }
   }
-
-  for (i = 2; i < n; i++) {
-    if(array[i]) {
-      output.push(i);
-    }
-  }
-
-  return output;
+  ret = primes[n-1]
+  return ret
 }
 
 test(parseInt(process.argv[2]))
