@@ -25,3 +25,5 @@ bench.out
 
 plots
 !plots/example-plot-gcd.png
+
+nohup.out
