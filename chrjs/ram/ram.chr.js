@@ -16,13 +16,13 @@ function test (a) {
   chr.mem(2,a)
   chr.mem(3,0)
   chr.prog_counter(1)
-  chr.prog(1,2,['add',1],3)
-  chr.prog(2,3,['sub',1],2)
-  chr.prog(3,1,['cjump', 2],4)
+  chr.prog(1,2,'add',1,3)
+  chr.prog(2,3,'sub',1,2)
+  chr.prog(3,1,'cjump',2,4)
   chr.prog(4,0,'halt',0)
 
-  console.log('done')
-  //console.log(chr.Store.toString())
+  //console.log('done')
+  console.log(chr.Store.toString())
 }
 
 test(parseInt(process.argv[2]))
@@ -66,7 +66,7 @@ function CHR () {
   }
   
   Store.prototype.add = function (constraint) {
-    if (!this._index.hasOwnProperty(constraint.functor)) {
+    if (!this._index[constraint.functor]) {
       this._index[constraint.functor] = []
     }
     constraint.id = this._nextId
@@ -106,7 +106,7 @@ function CHR () {
       if (patterns[i] === '_') {
         // "_" is a placeholder for the given `constraint`
         arr[i] = [ constraint ]
-      } else if (this._index.hasOwnProperty(patterns[i])) {
+      } else if (this._index[patterns[i]]) {
         arr[i] = this._index[patterns[i]]
       } else {
         // not a single element for this functor
@@ -279,7 +279,7 @@ function CHR () {
 
     var L_0 = constraint.args[0]
 
-    var constraintPattern = [ "prog/4", "mem/2", "mem/2", "_" ]
+    var constraintPattern = [ "prog/5", "mem/2", "mem/2", "_" ]
     var lookupResult = chr.Store.lookupResume(0, constraintPattern, constraint, __n)
     if (lookupResult === false) {
       constraint.cont = [__prog_counter_1_1, 0]
@@ -290,18 +290,21 @@ function CHR () {
 
     var L = constraints[0].args[0]
     var L1 = constraints[0].args[1]
-    
-    // Note: This feature needs native Destructuring (Array value).
-    var [Add, B] = constraints[0].args[2]
-    var A = constraints[0].args[3]
+    if (constraints[0].args[2] !== "add") {
+      constraint.cont = [__prog_counter_1_0, __n + 1]
+      stack.push(constraint)
+      return
+    }
+    var B = constraints[0].args[3]
+    var A = constraints[0].args[4]
 
-    var B = constraints[1].args[0]
+    var B_0 = constraints[1].args[0]
     var Y = constraints[1].args[1]
 
     var A_0 = constraints[2].args[0]
     var X = constraints[2].args[1]
 
-    if (!(Add === "add" && A === A_0 && L === L_0)) {
+    if (!(B === B_0 && A === A_0 && L === L_0)) {
       constraint.cont = [__prog_counter_1_0, __n + 1]
       stack.push(constraint)
       return
@@ -330,7 +333,7 @@ function CHR () {
     var A_0 = constraint.args[0]
     var X = constraint.args[1]
 
-    var constraintPattern = [ "prog/4", "mem/2", "_", "prog_counter/1" ]
+    var constraintPattern = [ "prog/5", "mem/2", "_", "prog_counter/1" ]
     var lookupResult = chr.Store.lookupResume(0, constraintPattern, constraint, __n)
     if (lookupResult === false) {
       constraint.cont = [__mem_2_1, 0]
@@ -341,17 +344,20 @@ function CHR () {
 
     var L = constraints[0].args[0]
     var L1 = constraints[0].args[1]
-    
-    // Note: This feature needs native Destructuring (Array value).
-    var [Add, B] = constraints[0].args[2]
-    var A = constraints[0].args[3]
+    if (constraints[0].args[2] !== "add") {
+      constraint.cont = [__mem_2_0, __n + 1]
+      stack.push(constraint)
+      return
+    }
+    var B = constraints[0].args[3]
+    var A = constraints[0].args[4]
 
-    var B = constraints[1].args[0]
+    var B_0 = constraints[1].args[0]
     var Y = constraints[1].args[1]
 
     var L_0 = constraints[3].args[0]
 
-    if (!(Add === "add" && A === A_0 && L === L_0)) {
+    if (!(B === B_0 && A === A_0 && L === L_0)) {
       constraint.cont = [__mem_2_0, __n + 1]
       stack.push(constraint)
       return
@@ -377,10 +383,10 @@ function CHR () {
   function __mem_2_1 (constraint, __n) {
     __n = __n || 0
 
-    var B = constraint.args[0]
+    var B_0 = constraint.args[0]
     var Y = constraint.args[1]
 
-    var constraintPattern = [ "prog/4", "_", "mem/2", "prog_counter/1" ]
+    var constraintPattern = [ "prog/5", "_", "mem/2", "prog_counter/1" ]
     var lookupResult = chr.Store.lookupResume(0, constraintPattern, constraint, __n)
     if (lookupResult === false) {
       constraint.cont = [__mem_2_2, 0]
@@ -391,17 +397,20 @@ function CHR () {
 
     var L = constraints[0].args[0]
     var L1 = constraints[0].args[1]
-    
-    // Note: This feature needs native Destructuring (Array value).
-    var [Add, B] = constraints[0].args[2]
-    var A = constraints[0].args[3]
+    if (constraints[0].args[2] !== "add") {
+      constraint.cont = [__mem_2_1, __n + 1]
+      stack.push(constraint)
+      return
+    }
+    var B = constraints[0].args[3]
+    var A = constraints[0].args[4]
 
     var A_0 = constraints[2].args[0]
     var X = constraints[2].args[1]
 
     var L_0 = constraints[3].args[0]
 
-    if (!(Add === "add" && A === A_0 && L === L_0)) {
+    if (!(B === B_0 && A === A_0 && L === L_0)) {
       constraint.cont = [__mem_2_1, __n + 1]
       stack.push(constraint)
       return
@@ -427,26 +436,29 @@ function CHR () {
     return
   }
 
-  function __prog_4_0 (constraint, __n) {
+  function __prog_5_0 (constraint, __n) {
     __n = __n || 0
 
     var L = constraint.args[0]
     var L1 = constraint.args[1]
-    
-    // Note: This feature needs native Destructuring (Array value).
-    var [Add, B] = constraint.args[2]
-    var A = constraint.args[3]
+    if (constraint.args[2] !== "add") {
+      constraint.cont = [__prog_5_1, 0]
+      stack.push(constraint)
+      return
+    }
+    var B = constraint.args[3]
+    var A = constraint.args[4]
 
     var constraintPattern = [ "_", "mem/2", "mem/2", "prog_counter/1" ]
     var lookupResult = chr.Store.lookupResume(0, constraintPattern, constraint, __n)
     if (lookupResult === false) {
-      constraint.cont = [__prog_4_1, 0]
+      constraint.cont = [__prog_5_1, 0]
       stack.push(constraint)
       return
     }
     var constraints = lookupResult.res
 
-    var B = constraints[1].args[0]
+    var B_0 = constraints[1].args[0]
     var Y = constraints[1].args[1]
 
     var A_0 = constraints[2].args[0]
@@ -454,8 +466,8 @@ function CHR () {
 
     var L_0 = constraints[3].args[0]
 
-    if (!(Add === "add" && A === A_0 && L === L_0)) {
-      constraint.cont = [__prog_4_0, __n + 1]
+    if (!(B === B_0 && A === A_0 && L === L_0)) {
+      constraint.cont = [__prog_5_0, __n + 1]
       stack.push(constraint)
       return
     }
@@ -475,7 +487,7 @@ function CHR () {
       stack.push(_c)
     })()
 
-    constraint.cont = [__prog_4_0, __n + 1]
+    constraint.cont = [__prog_5_0, __n + 1]
     stack.push(constraint)
     return
   }
@@ -485,7 +497,7 @@ function CHR () {
 
     var L_0 = constraint.args[0]
 
-    var constraintPattern = [ "prog/4", "mem/2", "mem/2", "_" ]
+    var constraintPattern = [ "prog/5", "mem/2", "mem/2", "_" ]
     var lookupResult = chr.Store.lookupResume(1, constraintPattern, constraint, __n)
     if (lookupResult === false) {
       constraint.cont = [__prog_counter_1_2, 0]
@@ -496,18 +508,21 @@ function CHR () {
 
     var L = constraints[0].args[0]
     var L1 = constraints[0].args[1]
-    
-    // Note: This feature needs native Destructuring (Array value).
-    var [Sub, B] = constraints[0].args[2]
-    var A = constraints[0].args[3]
+    if (constraints[0].args[2] !== "sub") {
+      constraint.cont = [__prog_counter_1_1, __n + 1]
+      stack.push(constraint)
+      return
+    }
+    var B = constraints[0].args[3]
+    var A = constraints[0].args[4]
 
-    var B = constraints[1].args[0]
+    var B_0 = constraints[1].args[0]
     var Y = constraints[1].args[1]
 
     var A_0 = constraints[2].args[0]
     var X = constraints[2].args[1]
 
-    if (!(Sub === "sub" && A === A_0 && L === L_0)) {
+    if (!(B === B_0 && A === A_0 && L === L_0)) {
       constraint.cont = [__prog_counter_1_1, __n + 1]
       stack.push(constraint)
       return
@@ -536,7 +551,7 @@ function CHR () {
     var A_0 = constraint.args[0]
     var X = constraint.args[1]
 
-    var constraintPattern = [ "prog/4", "mem/2", "_", "prog_counter/1" ]
+    var constraintPattern = [ "prog/5", "mem/2", "_", "prog_counter/1" ]
     var lookupResult = chr.Store.lookupResume(1, constraintPattern, constraint, __n)
     if (lookupResult === false) {
       constraint.cont = [__mem_2_3, 0]
@@ -547,17 +562,20 @@ function CHR () {
 
     var L = constraints[0].args[0]
     var L1 = constraints[0].args[1]
-    
-    // Note: This feature needs native Destructuring (Array value).
-    var [Sub, B] = constraints[0].args[2]
-    var A = constraints[0].args[3]
+    if (constraints[0].args[2] !== "sub") {
+      constraint.cont = [__mem_2_2, __n + 1]
+      stack.push(constraint)
+      return
+    }
+    var B = constraints[0].args[3]
+    var A = constraints[0].args[4]
 
-    var B = constraints[1].args[0]
+    var B_0 = constraints[1].args[0]
     var Y = constraints[1].args[1]
 
     var L_0 = constraints[3].args[0]
 
-    if (!(Sub === "sub" && A === A_0 && L === L_0)) {
+    if (!(B === B_0 && A === A_0 && L === L_0)) {
       constraint.cont = [__mem_2_2, __n + 1]
       stack.push(constraint)
       return
@@ -583,10 +601,10 @@ function CHR () {
   function __mem_2_3 (constraint, __n) {
     __n = __n || 0
 
-    var B = constraint.args[0]
+    var B_0 = constraint.args[0]
     var Y = constraint.args[1]
 
-    var constraintPattern = [ "prog/4", "_", "mem/2", "prog_counter/1" ]
+    var constraintPattern = [ "prog/5", "_", "mem/2", "prog_counter/1" ]
     var lookupResult = chr.Store.lookupResume(1, constraintPattern, constraint, __n)
     if (lookupResult === false) {
       constraint.cont = [__mem_2_4, 0]
@@ -597,17 +615,20 @@ function CHR () {
 
     var L = constraints[0].args[0]
     var L1 = constraints[0].args[1]
-    
-    // Note: This feature needs native Destructuring (Array value).
-    var [Sub, B] = constraints[0].args[2]
-    var A = constraints[0].args[3]
+    if (constraints[0].args[2] !== "sub") {
+      constraint.cont = [__mem_2_3, __n + 1]
+      stack.push(constraint)
+      return
+    }
+    var B = constraints[0].args[3]
+    var A = constraints[0].args[4]
 
     var A_0 = constraints[2].args[0]
     var X = constraints[2].args[1]
 
     var L_0 = constraints[3].args[0]
 
-    if (!(Sub === "sub" && A === A_0 && L === L_0)) {
+    if (!(B === B_0 && A === A_0 && L === L_0)) {
       constraint.cont = [__mem_2_3, __n + 1]
       stack.push(constraint)
       return
@@ -633,26 +654,29 @@ function CHR () {
     return
   }
 
-  function __prog_4_1 (constraint, __n) {
+  function __prog_5_1 (constraint, __n) {
     __n = __n || 0
 
     var L = constraint.args[0]
     var L1 = constraint.args[1]
-    
-    // Note: This feature needs native Destructuring (Array value).
-    var [Sub, B] = constraint.args[2]
-    var A = constraint.args[3]
+    if (constraint.args[2] !== "sub") {
+      constraint.cont = [__prog_5_2, 0]
+      stack.push(constraint)
+      return
+    }
+    var B = constraint.args[3]
+    var A = constraint.args[4]
 
     var constraintPattern = [ "_", "mem/2", "mem/2", "prog_counter/1" ]
     var lookupResult = chr.Store.lookupResume(1, constraintPattern, constraint, __n)
     if (lookupResult === false) {
-      constraint.cont = [__prog_4_2, 0]
+      constraint.cont = [__prog_5_2, 0]
       stack.push(constraint)
       return
     }
     var constraints = lookupResult.res
 
-    var B = constraints[1].args[0]
+    var B_0 = constraints[1].args[0]
     var Y = constraints[1].args[1]
 
     var A_0 = constraints[2].args[0]
@@ -660,8 +684,8 @@ function CHR () {
 
     var L_0 = constraints[3].args[0]
 
-    if (!(Sub === "sub" && A === A_0 && L === L_0)) {
-      constraint.cont = [__prog_4_1, __n + 1]
+    if (!(B === B_0 && A === A_0 && L === L_0)) {
+      constraint.cont = [__prog_5_1, __n + 1]
       stack.push(constraint)
       return
     }
@@ -681,7 +705,7 @@ function CHR () {
       stack.push(_c)
     })()
 
-    constraint.cont = [__prog_4_1, __n + 1]
+    constraint.cont = [__prog_5_1, __n + 1]
     stack.push(constraint)
     return
   }
@@ -691,7 +715,7 @@ function CHR () {
 
     var L_0 = constraint.args[0]
 
-    var constraintPattern = [ "prog/4", "mem/2", "mem/2", "_" ]
+    var constraintPattern = [ "prog/5", "mem/2", "mem/2", "_" ]
     var lookupResult = chr.Store.lookupResume(2, constraintPattern, constraint, __n)
     if (lookupResult === false) {
       constraint.cont = [__prog_counter_1_3, 0]
@@ -702,18 +726,21 @@ function CHR () {
 
     var L = constraints[0].args[0]
     var L1 = constraints[0].args[1]
-    
-    // Note: This feature needs native Destructuring (Array value).
-    var [Mult, B] = constraints[0].args[2]
-    var A = constraints[0].args[3]
+    if (constraints[0].args[2] !== "mult") {
+      constraint.cont = [__prog_counter_1_2, __n + 1]
+      stack.push(constraint)
+      return
+    }
+    var B = constraints[0].args[3]
+    var A = constraints[0].args[4]
 
-    var B = constraints[1].args[0]
+    var B_0 = constraints[1].args[0]
     var Y = constraints[1].args[1]
 
     var A_0 = constraints[2].args[0]
     var X = constraints[2].args[1]
 
-    if (!(Mult === "mult" && A === A_0 && L === L_0)) {
+    if (!(B === B_0 && A === A_0 && L === L_0)) {
       constraint.cont = [__prog_counter_1_2, __n + 1]
       stack.push(constraint)
       return
@@ -742,7 +769,7 @@ function CHR () {
     var A_0 = constraint.args[0]
     var X = constraint.args[1]
 
-    var constraintPattern = [ "prog/4", "mem/2", "_", "prog_counter/1" ]
+    var constraintPattern = [ "prog/5", "mem/2", "_", "prog_counter/1" ]
     var lookupResult = chr.Store.lookupResume(2, constraintPattern, constraint, __n)
     if (lookupResult === false) {
       constraint.cont = [__mem_2_5, 0]
@@ -753,17 +780,20 @@ function CHR () {
 
     var L = constraints[0].args[0]
     var L1 = constraints[0].args[1]
-    
-    // Note: This feature needs native Destructuring (Array value).
-    var [Mult, B] = constraints[0].args[2]
-    var A = constraints[0].args[3]
+    if (constraints[0].args[2] !== "mult") {
+      constraint.cont = [__mem_2_4, __n + 1]
+      stack.push(constraint)
+      return
+    }
+    var B = constraints[0].args[3]
+    var A = constraints[0].args[4]
 
-    var B = constraints[1].args[0]
+    var B_0 = constraints[1].args[0]
     var Y = constraints[1].args[1]
 
     var L_0 = constraints[3].args[0]
 
-    if (!(Mult === "mult" && A === A_0 && L === L_0)) {
+    if (!(B === B_0 && A === A_0 && L === L_0)) {
       constraint.cont = [__mem_2_4, __n + 1]
       stack.push(constraint)
       return
@@ -789,10 +819,10 @@ function CHR () {
   function __mem_2_5 (constraint, __n) {
     __n = __n || 0
 
-    var B = constraint.args[0]
+    var B_0 = constraint.args[0]
     var Y = constraint.args[1]
 
-    var constraintPattern = [ "prog/4", "_", "mem/2", "prog_counter/1" ]
+    var constraintPattern = [ "prog/5", "_", "mem/2", "prog_counter/1" ]
     var lookupResult = chr.Store.lookupResume(2, constraintPattern, constraint, __n)
     if (lookupResult === false) {
       constraint.cont = [__mem_2_6, 0]
@@ -803,17 +833,20 @@ function CHR () {
 
     var L = constraints[0].args[0]
     var L1 = constraints[0].args[1]
-    
-    // Note: This feature needs native Destructuring (Array value).
-    var [Mult, B] = constraints[0].args[2]
-    var A = constraints[0].args[3]
+    if (constraints[0].args[2] !== "mult") {
+      constraint.cont = [__mem_2_5, __n + 1]
+      stack.push(constraint)
+      return
+    }
+    var B = constraints[0].args[3]
+    var A = constraints[0].args[4]
 
     var A_0 = constraints[2].args[0]
     var X = constraints[2].args[1]
 
     var L_0 = constraints[3].args[0]
 
-    if (!(Mult === "mult" && A === A_0 && L === L_0)) {
+    if (!(B === B_0 && A === A_0 && L === L_0)) {
       constraint.cont = [__mem_2_5, __n + 1]
       stack.push(constraint)
       return
@@ -839,26 +872,29 @@ function CHR () {
     return
   }
 
-  function __prog_4_2 (constraint, __n) {
+  function __prog_5_2 (constraint, __n) {
     __n = __n || 0
 
     var L = constraint.args[0]
     var L1 = constraint.args[1]
-    
-    // Note: This feature needs native Destructuring (Array value).
-    var [Mult, B] = constraint.args[2]
-    var A = constraint.args[3]
+    if (constraint.args[2] !== "mult") {
+      constraint.cont = [__prog_5_3, 0]
+      stack.push(constraint)
+      return
+    }
+    var B = constraint.args[3]
+    var A = constraint.args[4]
 
     var constraintPattern = [ "_", "mem/2", "mem/2", "prog_counter/1" ]
     var lookupResult = chr.Store.lookupResume(2, constraintPattern, constraint, __n)
     if (lookupResult === false) {
-      constraint.cont = [__prog_4_3, 0]
+      constraint.cont = [__prog_5_3, 0]
       stack.push(constraint)
       return
     }
     var constraints = lookupResult.res
 
-    var B = constraints[1].args[0]
+    var B_0 = constraints[1].args[0]
     var Y = constraints[1].args[1]
 
     var A_0 = constraints[2].args[0]
@@ -866,8 +902,8 @@ function CHR () {
 
     var L_0 = constraints[3].args[0]
 
-    if (!(Mult === "mult" && A === A_0 && L === L_0)) {
-      constraint.cont = [__prog_4_2, __n + 1]
+    if (!(B === B_0 && A === A_0 && L === L_0)) {
+      constraint.cont = [__prog_5_2, __n + 1]
       stack.push(constraint)
       return
     }
@@ -887,7 +923,7 @@ function CHR () {
       stack.push(_c)
     })()
 
-    constraint.cont = [__prog_4_2, __n + 1]
+    constraint.cont = [__prog_5_2, __n + 1]
     stack.push(constraint)
     return
   }
@@ -897,7 +933,7 @@ function CHR () {
 
     var L_0 = constraint.args[0]
 
-    var constraintPattern = [ "prog/4", "mem/2", "mem/2", "_" ]
+    var constraintPattern = [ "prog/5", "mem/2", "mem/2", "_" ]
     var lookupResult = chr.Store.lookupResume(3, constraintPattern, constraint, __n)
     if (lookupResult === false) {
       constraint.cont = [__prog_counter_1_4, 0]
@@ -908,18 +944,21 @@ function CHR () {
 
     var L = constraints[0].args[0]
     var L1 = constraints[0].args[1]
-    
-    // Note: This feature needs native Destructuring (Array value).
-    var [Div, B] = constraints[0].args[2]
-    var A = constraints[0].args[3]
+    if (constraints[0].args[2] !== "div") {
+      constraint.cont = [__prog_counter_1_3, __n + 1]
+      stack.push(constraint)
+      return
+    }
+    var B = constraints[0].args[3]
+    var A = constraints[0].args[4]
 
-    var B = constraints[1].args[0]
+    var B_0 = constraints[1].args[0]
     var Y = constraints[1].args[1]
 
     var A_0 = constraints[2].args[0]
     var X = constraints[2].args[1]
 
-    if (!(Div === "div" && A === A_0 && L === L_0)) {
+    if (!(B === B_0 && A === A_0 && L === L_0)) {
       constraint.cont = [__prog_counter_1_3, __n + 1]
       stack.push(constraint)
       return
@@ -948,7 +987,7 @@ function CHR () {
     var A_0 = constraint.args[0]
     var X = constraint.args[1]
 
-    var constraintPattern = [ "prog/4", "mem/2", "_", "prog_counter/1" ]
+    var constraintPattern = [ "prog/5", "mem/2", "_", "prog_counter/1" ]
     var lookupResult = chr.Store.lookupResume(3, constraintPattern, constraint, __n)
     if (lookupResult === false) {
       constraint.cont = [__mem_2_7, 0]
@@ -959,17 +998,20 @@ function CHR () {
 
     var L = constraints[0].args[0]
     var L1 = constraints[0].args[1]
-    
-    // Note: This feature needs native Destructuring (Array value).
-    var [Div, B] = constraints[0].args[2]
-    var A = constraints[0].args[3]
+    if (constraints[0].args[2] !== "div") {
+      constraint.cont = [__mem_2_6, __n + 1]
+      stack.push(constraint)
+      return
+    }
+    var B = constraints[0].args[3]
+    var A = constraints[0].args[4]
 
-    var B = constraints[1].args[0]
+    var B_0 = constraints[1].args[0]
     var Y = constraints[1].args[1]
 
     var L_0 = constraints[3].args[0]
 
-    if (!(Div === "div" && A === A_0 && L === L_0)) {
+    if (!(B === B_0 && A === A_0 && L === L_0)) {
       constraint.cont = [__mem_2_6, __n + 1]
       stack.push(constraint)
       return
@@ -995,10 +1037,10 @@ function CHR () {
   function __mem_2_7 (constraint, __n) {
     __n = __n || 0
 
-    var B = constraint.args[0]
+    var B_0 = constraint.args[0]
     var Y = constraint.args[1]
 
-    var constraintPattern = [ "prog/4", "_", "mem/2", "prog_counter/1" ]
+    var constraintPattern = [ "prog/5", "_", "mem/2", "prog_counter/1" ]
     var lookupResult = chr.Store.lookupResume(3, constraintPattern, constraint, __n)
     if (lookupResult === false) {
       constraint.cont = [__mem_2_8, 0]
@@ -1009,17 +1051,20 @@ function CHR () {
 
     var L = constraints[0].args[0]
     var L1 = constraints[0].args[1]
-    
-    // Note: This feature needs native Destructuring (Array value).
-    var [Div, B] = constraints[0].args[2]
-    var A = constraints[0].args[3]
+    if (constraints[0].args[2] !== "div") {
+      constraint.cont = [__mem_2_7, __n + 1]
+      stack.push(constraint)
+      return
+    }
+    var B = constraints[0].args[3]
+    var A = constraints[0].args[4]
 
     var A_0 = constraints[2].args[0]
     var X = constraints[2].args[1]
 
     var L_0 = constraints[3].args[0]
 
-    if (!(Div === "div" && A === A_0 && L === L_0)) {
+    if (!(B === B_0 && A === A_0 && L === L_0)) {
       constraint.cont = [__mem_2_7, __n + 1]
       stack.push(constraint)
       return
@@ -1045,26 +1090,29 @@ function CHR () {
     return
   }
 
-  function __prog_4_3 (constraint, __n) {
+  function __prog_5_3 (constraint, __n) {
     __n = __n || 0
 
     var L = constraint.args[0]
     var L1 = constraint.args[1]
-    
-    // Note: This feature needs native Destructuring (Array value).
-    var [Div, B] = constraint.args[2]
-    var A = constraint.args[3]
+    if (constraint.args[2] !== "div") {
+      constraint.cont = [__prog_5_4, 0]
+      stack.push(constraint)
+      return
+    }
+    var B = constraint.args[3]
+    var A = constraint.args[4]
 
     var constraintPattern = [ "_", "mem/2", "mem/2", "prog_counter/1" ]
     var lookupResult = chr.Store.lookupResume(3, constraintPattern, constraint, __n)
     if (lookupResult === false) {
-      constraint.cont = [__prog_4_4, 0]
+      constraint.cont = [__prog_5_4, 0]
       stack.push(constraint)
       return
     }
     var constraints = lookupResult.res
 
-    var B = constraints[1].args[0]
+    var B_0 = constraints[1].args[0]
     var Y = constraints[1].args[1]
 
     var A_0 = constraints[2].args[0]
@@ -1072,8 +1120,8 @@ function CHR () {
 
     var L_0 = constraints[3].args[0]
 
-    if (!(Div === "div" && A === A_0 && L === L_0)) {
-      constraint.cont = [__prog_4_3, __n + 1]
+    if (!(B === B_0 && A === A_0 && L === L_0)) {
+      constraint.cont = [__prog_5_3, __n + 1]
       stack.push(constraint)
       return
     }
@@ -1093,7 +1141,7 @@ function CHR () {
       stack.push(_c)
     })()
 
-    constraint.cont = [__prog_4_3, __n + 1]
+    constraint.cont = [__prog_5_3, __n + 1]
     stack.push(constraint)
     return
   }
@@ -1103,7 +1151,7 @@ function CHR () {
 
     var L_0 = constraint.args[0]
 
-    var constraintPattern = [ "prog/4", "mem/2", "mem/2", "_" ]
+    var constraintPattern = [ "prog/5", "mem/2", "mem/2", "_" ]
     var lookupResult = chr.Store.lookupResume(4, constraintPattern, constraint, __n)
     if (lookupResult === false) {
       constraint.cont = [__prog_counter_1_5, 0]
@@ -1114,18 +1162,21 @@ function CHR () {
 
     var L = constraints[0].args[0]
     var L1 = constraints[0].args[1]
-    
-    // Note: This feature needs native Destructuring (Array value).
-    var [Move, B] = constraints[0].args[2]
-    var A = constraints[0].args[3]
+    if (constraints[0].args[2] !== "move") {
+      constraint.cont = [__prog_counter_1_4, __n + 1]
+      stack.push(constraint)
+      return
+    }
+    var B = constraints[0].args[3]
+    var A = constraints[0].args[4]
 
-    var B = constraints[1].args[0]
+    var B_0 = constraints[1].args[0]
     var X = constraints[1].args[1]
 
     var A_0 = constraints[2].args[0]
     var QQ = constraints[2].args[1]
 
-    if (!(Move === "move" && A === A_0 && L === L_0)) {
+    if (!(B === B_0 && A === A_0 && L === L_0)) {
       constraint.cont = [__prog_counter_1_4, __n + 1]
       stack.push(constraint)
       return
@@ -1154,7 +1205,7 @@ function CHR () {
     var A_0 = constraint.args[0]
     var QQ = constraint.args[1]
 
-    var constraintPattern = [ "prog/4", "mem/2", "_", "prog_counter/1" ]
+    var constraintPattern = [ "prog/5", "mem/2", "_", "prog_counter/1" ]
     var lookupResult = chr.Store.lookupResume(4, constraintPattern, constraint, __n)
     if (lookupResult === false) {
       constraint.cont = [__mem_2_9, 0]
@@ -1165,17 +1216,20 @@ function CHR () {
 
     var L = constraints[0].args[0]
     var L1 = constraints[0].args[1]
-    
-    // Note: This feature needs native Destructuring (Array value).
-    var [Move, B] = constraints[0].args[2]
-    var A = constraints[0].args[3]
+    if (constraints[0].args[2] !== "move") {
+      constraint.cont = [__mem_2_8, __n + 1]
+      stack.push(constraint)
+      return
+    }
+    var B = constraints[0].args[3]
+    var A = constraints[0].args[4]
 
-    var B = constraints[1].args[0]
+    var B_0 = constraints[1].args[0]
     var X = constraints[1].args[1]
 
     var L_0 = constraints[3].args[0]
 
-    if (!(Move === "move" && A === A_0 && L === L_0)) {
+    if (!(B === B_0 && A === A_0 && L === L_0)) {
       constraint.cont = [__mem_2_8, __n + 1]
       stack.push(constraint)
       return
@@ -1201,10 +1255,10 @@ function CHR () {
   function __mem_2_9 (constraint, __n) {
     __n = __n || 0
 
-    var B = constraint.args[0]
+    var B_0 = constraint.args[0]
     var X = constraint.args[1]
 
-    var constraintPattern = [ "prog/4", "_", "mem/2", "prog_counter/1" ]
+    var constraintPattern = [ "prog/5", "_", "mem/2", "prog_counter/1" ]
     var lookupResult = chr.Store.lookupResume(4, constraintPattern, constraint, __n)
     if (lookupResult === false) {
       constraint.cont = [__mem_2_10, 0]
@@ -1215,17 +1269,20 @@ function CHR () {
 
     var L = constraints[0].args[0]
     var L1 = constraints[0].args[1]
-    
-    // Note: This feature needs native Destructuring (Array value).
-    var [Move, B] = constraints[0].args[2]
-    var A = constraints[0].args[3]
+    if (constraints[0].args[2] !== "move") {
+      constraint.cont = [__mem_2_9, __n + 1]
+      stack.push(constraint)
+      return
+    }
+    var B = constraints[0].args[3]
+    var A = constraints[0].args[4]
 
     var A_0 = constraints[2].args[0]
     var QQ = constraints[2].args[1]
 
     var L_0 = constraints[3].args[0]
 
-    if (!(Move === "move" && A === A_0 && L === L_0)) {
+    if (!(B === B_0 && A === A_0 && L === L_0)) {
       constraint.cont = [__mem_2_9, __n + 1]
       stack.push(constraint)
       return
@@ -1251,26 +1308,29 @@ function CHR () {
     return
   }
 
-  function __prog_4_4 (constraint, __n) {
+  function __prog_5_4 (constraint, __n) {
     __n = __n || 0
 
     var L = constraint.args[0]
     var L1 = constraint.args[1]
-    
-    // Note: This feature needs native Destructuring (Array value).
-    var [Move, B] = constraint.args[2]
-    var A = constraint.args[3]
+    if (constraint.args[2] !== "move") {
+      constraint.cont = [__prog_5_5, 0]
+      stack.push(constraint)
+      return
+    }
+    var B = constraint.args[3]
+    var A = constraint.args[4]
 
     var constraintPattern = [ "_", "mem/2", "mem/2", "prog_counter/1" ]
     var lookupResult = chr.Store.lookupResume(4, constraintPattern, constraint, __n)
     if (lookupResult === false) {
-      constraint.cont = [__prog_4_5, 0]
+      constraint.cont = [__prog_5_5, 0]
       stack.push(constraint)
       return
     }
     var constraints = lookupResult.res
 
-    var B = constraints[1].args[0]
+    var B_0 = constraints[1].args[0]
     var X = constraints[1].args[1]
 
     var A_0 = constraints[2].args[0]
@@ -1278,8 +1338,8 @@ function CHR () {
 
     var L_0 = constraints[3].args[0]
 
-    if (!(Move === "move" && A === A_0 && L === L_0)) {
-      constraint.cont = [__prog_4_4, __n + 1]
+    if (!(B === B_0 && A === A_0 && L === L_0)) {
+      constraint.cont = [__prog_5_4, __n + 1]
       stack.push(constraint)
       return
     }
@@ -1299,7 +1359,7 @@ function CHR () {
       stack.push(_c)
     })()
 
-    constraint.cont = [__prog_4_4, __n + 1]
+    constraint.cont = [__prog_5_4, __n + 1]
     stack.push(constraint)
     return
   }
@@ -1309,7 +1369,7 @@ function CHR () {
 
     var L_0 = constraint.args[0]
 
-    var constraintPattern = [ "prog/4", "mem/2", "mem/2", "mem/2", "_" ]
+    var constraintPattern = [ "prog/5", "mem/2", "mem/2", "mem/2", "_" ]
     var lookupResult = chr.Store.lookupResume(5, constraintPattern, constraint, __n)
     if (lookupResult === false) {
       constraint.cont = [__prog_counter_1_6, 0]
@@ -1320,12 +1380,15 @@ function CHR () {
 
     var L = constraints[0].args[0]
     var L1 = constraints[0].args[1]
-    
-    // Note: This feature needs native Destructuring (Array value).
-    var [I_Move, B] = constraints[0].args[2]
-    var A = constraints[0].args[3]
+    if (constraints[0].args[2] !== "i_move") {
+      constraint.cont = [__prog_counter_1_5, __n + 1]
+      stack.push(constraint)
+      return
+    }
+    var B = constraints[0].args[3]
+    var A = constraints[0].args[4]
 
-    var B = constraints[1].args[0]
+    var B_0 = constraints[1].args[0]
     var C = constraints[1].args[1]
 
     var C_0 = constraints[2].args[0]
@@ -1334,7 +1397,7 @@ function CHR () {
     var A_0 = constraints[3].args[0]
     var QQ = constraints[3].args[1]
 
-    if (!(I_Move === "i_move" && C === C_0 && A === A_0 && L === L_0)) {
+    if (!(B === B_0 && C === C_0 && A === A_0 && L === L_0)) {
       constraint.cont = [__prog_counter_1_5, __n + 1]
       stack.push(constraint)
       return
@@ -1363,7 +1426,7 @@ function CHR () {
     var A_0 = constraint.args[0]
     var QQ = constraint.args[1]
 
-    var constraintPattern = [ "prog/4", "mem/2", "mem/2", "_", "prog_counter/1" ]
+    var constraintPattern = [ "prog/5", "mem/2", "mem/2", "_", "prog_counter/1" ]
     var lookupResult = chr.Store.lookupResume(5, constraintPattern, constraint, __n)
     if (lookupResult === false) {
       constraint.cont = [__mem_2_11, 0]
@@ -1374,12 +1437,15 @@ function CHR () {
 
     var L = constraints[0].args[0]
     var L1 = constraints[0].args[1]
-    
-    // Note: This feature needs native Destructuring (Array value).
-    var [I_Move, B] = constraints[0].args[2]
-    var A = constraints[0].args[3]
+    if (constraints[0].args[2] !== "i_move") {
+      constraint.cont = [__mem_2_10, __n + 1]
+      stack.push(constraint)
+      return
+    }
+    var B = constraints[0].args[3]
+    var A = constraints[0].args[4]
 
-    var B = constraints[1].args[0]
+    var B_0 = constraints[1].args[0]
     var C = constraints[1].args[1]
 
     var C_0 = constraints[2].args[0]
@@ -1387,7 +1453,7 @@ function CHR () {
 
     var L_0 = constraints[4].args[0]
 
-    if (!(I_Move === "i_move" && C === C_0 && A === A_0 && L === L_0)) {
+    if (!(B === B_0 && C === C_0 && A === A_0 && L === L_0)) {
       constraint.cont = [__mem_2_10, __n + 1]
       stack.push(constraint)
       return
@@ -1416,7 +1482,7 @@ function CHR () {
     var C_0 = constraint.args[0]
     var X = constraint.args[1]
 
-    var constraintPattern = [ "prog/4", "mem/2", "_", "mem/2", "prog_counter/1" ]
+    var constraintPattern = [ "prog/5", "mem/2", "_", "mem/2", "prog_counter/1" ]
     var lookupResult = chr.Store.lookupResume(5, constraintPattern, constraint, __n)
     if (lookupResult === false) {
       constraint.cont = [__mem_2_12, 0]
@@ -1427,12 +1493,15 @@ function CHR () {
 
     var L = constraints[0].args[0]
     var L1 = constraints[0].args[1]
-    
-    // Note: This feature needs native Destructuring (Array value).
-    var [I_Move, B] = constraints[0].args[2]
-    var A = constraints[0].args[3]
+    if (constraints[0].args[2] !== "i_move") {
+      constraint.cont = [__mem_2_11, __n + 1]
+      stack.push(constraint)
+      return
+    }
+    var B = constraints[0].args[3]
+    var A = constraints[0].args[4]
 
-    var B = constraints[1].args[0]
+    var B_0 = constraints[1].args[0]
     var C = constraints[1].args[1]
 
     var A_0 = constraints[3].args[0]
@@ -1440,7 +1509,7 @@ function CHR () {
 
     var L_0 = constraints[4].args[0]
 
-    if (!(I_Move === "i_move" && C === C_0 && A === A_0 && L === L_0)) {
+    if (!(B === B_0 && C === C_0 && A === A_0 && L === L_0)) {
       constraint.cont = [__mem_2_11, __n + 1]
       stack.push(constraint)
       return
@@ -1469,10 +1538,10 @@ function CHR () {
   function __mem_2_12 (constraint, __n) {
     __n = __n || 0
 
-    var B = constraint.args[0]
+    var B_0 = constraint.args[0]
     var C = constraint.args[1]
 
-    var constraintPattern = [ "prog/4", "_", "mem/2", "mem/2", "prog_counter/1" ]
+    var constraintPattern = [ "prog/5", "_", "mem/2", "mem/2", "prog_counter/1" ]
     var lookupResult = chr.Store.lookupResume(5, constraintPattern, constraint, __n)
     if (lookupResult === false) {
       constraint.cont = [__mem_2_13, 0]
@@ -1483,10 +1552,13 @@ function CHR () {
 
     var L = constraints[0].args[0]
     var L1 = constraints[0].args[1]
-    
-    // Note: This feature needs native Destructuring (Array value).
-    var [I_Move, B] = constraints[0].args[2]
-    var A = constraints[0].args[3]
+    if (constraints[0].args[2] !== "i_move") {
+      constraint.cont = [__mem_2_12, __n + 1]
+      stack.push(constraint)
+      return
+    }
+    var B = constraints[0].args[3]
+    var A = constraints[0].args[4]
 
     var C_0 = constraints[2].args[0]
     var X = constraints[2].args[1]
@@ -1496,7 +1568,7 @@ function CHR () {
 
     var L_0 = constraints[4].args[0]
 
-    if (!(I_Move === "i_move" && C === C_0 && A === A_0 && L === L_0)) {
+    if (!(B === B_0 && C === C_0 && A === A_0 && L === L_0)) {
       constraint.cont = [__mem_2_12, __n + 1]
       stack.push(constraint)
       return
@@ -1522,26 +1594,29 @@ function CHR () {
     return
   }
 
-  function __prog_4_5 (constraint, __n) {
+  function __prog_5_5 (constraint, __n) {
     __n = __n || 0
 
     var L = constraint.args[0]
     var L1 = constraint.args[1]
-    
-    // Note: This feature needs native Destructuring (Array value).
-    var [I_Move, B] = constraint.args[2]
-    var A = constraint.args[3]
+    if (constraint.args[2] !== "i_move") {
+      constraint.cont = [__prog_5_6, 0]
+      stack.push(constraint)
+      return
+    }
+    var B = constraint.args[3]
+    var A = constraint.args[4]
 
     var constraintPattern = [ "_", "mem/2", "mem/2", "mem/2", "prog_counter/1" ]
     var lookupResult = chr.Store.lookupResume(5, constraintPattern, constraint, __n)
     if (lookupResult === false) {
-      constraint.cont = [__prog_4_6, 0]
+      constraint.cont = [__prog_5_6, 0]
       stack.push(constraint)
       return
     }
     var constraints = lookupResult.res
 
-    var B = constraints[1].args[0]
+    var B_0 = constraints[1].args[0]
     var C = constraints[1].args[1]
 
     var C_0 = constraints[2].args[0]
@@ -1552,8 +1627,8 @@ function CHR () {
 
     var L_0 = constraints[4].args[0]
 
-    if (!(I_Move === "i_move" && C === C_0 && A === A_0 && L === L_0)) {
-      constraint.cont = [__prog_4_5, __n + 1]
+    if (!(B === B_0 && C === C_0 && A === A_0 && L === L_0)) {
+      constraint.cont = [__prog_5_5, __n + 1]
       stack.push(constraint)
       return
     }
@@ -1573,7 +1648,7 @@ function CHR () {
       stack.push(_c)
     })()
 
-    constraint.cont = [__prog_4_5, __n + 1]
+    constraint.cont = [__prog_5_5, __n + 1]
     stack.push(constraint)
     return
   }
@@ -1583,7 +1658,7 @@ function CHR () {
 
     var L_0 = constraint.args[0]
 
-    var constraintPattern = [ "prog/4", "mem/2", "mem/2", "mem/2", "_" ]
+    var constraintPattern = [ "prog/5", "mem/2", "mem/2", "mem/2", "_" ]
     var lookupResult = chr.Store.lookupResume(6, constraintPattern, constraint, __n)
     if (lookupResult === false) {
       constraint.cont = [__prog_counter_1_7, 0]
@@ -1594,12 +1669,15 @@ function CHR () {
 
     var L = constraints[0].args[0]
     var L1 = constraints[0].args[1]
-    
-    // Note: This feature needs native Destructuring (Array value).
-    var [I_Move, B] = constraints[0].args[2]
-    var A = constraints[0].args[3]
+    if (constraints[0].args[2] !== "i_move") {
+      constraint.cont = [__prog_counter_1_6, __n + 1]
+      stack.push(constraint)
+      return
+    }
+    var B = constraints[0].args[3]
+    var A = constraints[0].args[4]
 
-    var B = constraints[1].args[0]
+    var B_0 = constraints[1].args[0]
     var X = constraints[1].args[1]
 
     var A_0 = constraints[2].args[0]
@@ -1608,7 +1686,7 @@ function CHR () {
     var C_0 = constraints[3].args[0]
     var QQ = constraints[3].args[1]
 
-    if (!(I_Move === "move_i" && A === A_0 && C === C_0 && L === L_0)) {
+    if (!(B === B_0 && A === A_0 && C === C_0 && L === L_0)) {
       constraint.cont = [__prog_counter_1_6, __n + 1]
       stack.push(constraint)
       return
@@ -1637,7 +1715,7 @@ function CHR () {
     var C_0 = constraint.args[0]
     var QQ = constraint.args[1]
 
-    var constraintPattern = [ "prog/4", "mem/2", "mem/2", "_", "prog_counter/1" ]
+    var constraintPattern = [ "prog/5", "mem/2", "mem/2", "_", "prog_counter/1" ]
     var lookupResult = chr.Store.lookupResume(6, constraintPattern, constraint, __n)
     if (lookupResult === false) {
       constraint.cont = [__mem_2_14, 0]
@@ -1648,12 +1726,15 @@ function CHR () {
 
     var L = constraints[0].args[0]
     var L1 = constraints[0].args[1]
-    
-    // Note: This feature needs native Destructuring (Array value).
-    var [I_Move, B] = constraints[0].args[2]
-    var A = constraints[0].args[3]
+    if (constraints[0].args[2] !== "i_move") {
+      constraint.cont = [__mem_2_13, __n + 1]
+      stack.push(constraint)
+      return
+    }
+    var B = constraints[0].args[3]
+    var A = constraints[0].args[4]
 
-    var B = constraints[1].args[0]
+    var B_0 = constraints[1].args[0]
     var X = constraints[1].args[1]
 
     var A_0 = constraints[2].args[0]
@@ -1661,7 +1742,7 @@ function CHR () {
 
     var L_0 = constraints[4].args[0]
 
-    if (!(I_Move === "move_i" && A === A_0 && C === C_0 && L === L_0)) {
+    if (!(B === B_0 && A === A_0 && C === C_0 && L === L_0)) {
       constraint.cont = [__mem_2_13, __n + 1]
       stack.push(constraint)
       return
@@ -1690,7 +1771,7 @@ function CHR () {
     var A_0 = constraint.args[0]
     var C = constraint.args[1]
 
-    var constraintPattern = [ "prog/4", "mem/2", "_", "mem/2", "prog_counter/1" ]
+    var constraintPattern = [ "prog/5", "mem/2", "_", "mem/2", "prog_counter/1" ]
     var lookupResult = chr.Store.lookupResume(6, constraintPattern, constraint, __n)
     if (lookupResult === false) {
       constraint.cont = [__mem_2_15, 0]
@@ -1701,12 +1782,15 @@ function CHR () {
 
     var L = constraints[0].args[0]
     var L1 = constraints[0].args[1]
-    
-    // Note: This feature needs native Destructuring (Array value).
-    var [I_Move, B] = constraints[0].args[2]
-    var A = constraints[0].args[3]
+    if (constraints[0].args[2] !== "i_move") {
+      constraint.cont = [__mem_2_14, __n + 1]
+      stack.push(constraint)
+      return
+    }
+    var B = constraints[0].args[3]
+    var A = constraints[0].args[4]
 
-    var B = constraints[1].args[0]
+    var B_0 = constraints[1].args[0]
     var X = constraints[1].args[1]
 
     var C_0 = constraints[3].args[0]
@@ -1714,7 +1798,7 @@ function CHR () {
 
     var L_0 = constraints[4].args[0]
 
-    if (!(I_Move === "move_i" && A === A_0 && C === C_0 && L === L_0)) {
+    if (!(B === B_0 && A === A_0 && C === C_0 && L === L_0)) {
       constraint.cont = [__mem_2_14, __n + 1]
       stack.push(constraint)
       return
@@ -1743,10 +1827,10 @@ function CHR () {
   function __mem_2_15 (constraint, __n) {
     __n = __n || 0
 
-    var B = constraint.args[0]
+    var B_0 = constraint.args[0]
     var X = constraint.args[1]
 
-    var constraintPattern = [ "prog/4", "_", "mem/2", "mem/2", "prog_counter/1" ]
+    var constraintPattern = [ "prog/5", "_", "mem/2", "mem/2", "prog_counter/1" ]
     var lookupResult = chr.Store.lookupResume(6, constraintPattern, constraint, __n)
     if (lookupResult === false) {
       constraint.cont = [__mem_2_16, 0]
@@ -1757,10 +1841,13 @@ function CHR () {
 
     var L = constraints[0].args[0]
     var L1 = constraints[0].args[1]
-    
-    // Note: This feature needs native Destructuring (Array value).
-    var [I_Move, B] = constraints[0].args[2]
-    var A = constraints[0].args[3]
+    if (constraints[0].args[2] !== "i_move") {
+      constraint.cont = [__mem_2_15, __n + 1]
+      stack.push(constraint)
+      return
+    }
+    var B = constraints[0].args[3]
+    var A = constraints[0].args[4]
 
     var A_0 = constraints[2].args[0]
     var C = constraints[2].args[1]
@@ -1770,7 +1857,7 @@ function CHR () {
 
     var L_0 = constraints[4].args[0]
 
-    if (!(I_Move === "move_i" && A === A_0 && C === C_0 && L === L_0)) {
+    if (!(B === B_0 && A === A_0 && C === C_0 && L === L_0)) {
       constraint.cont = [__mem_2_15, __n + 1]
       stack.push(constraint)
       return
@@ -1796,26 +1883,29 @@ function CHR () {
     return
   }
 
-  function __prog_4_6 (constraint, __n) {
+  function __prog_5_6 (constraint, __n) {
     __n = __n || 0
 
     var L = constraint.args[0]
     var L1 = constraint.args[1]
-    
-    // Note: This feature needs native Destructuring (Array value).
-    var [I_Move, B] = constraint.args[2]
-    var A = constraint.args[3]
+    if (constraint.args[2] !== "i_move") {
+      constraint.cont = [__prog_5_7, 0]
+      stack.push(constraint)
+      return
+    }
+    var B = constraint.args[3]
+    var A = constraint.args[4]
 
     var constraintPattern = [ "_", "mem/2", "mem/2", "mem/2", "prog_counter/1" ]
     var lookupResult = chr.Store.lookupResume(6, constraintPattern, constraint, __n)
     if (lookupResult === false) {
-      constraint.cont = [__prog_4_7, 0]
+      constraint.cont = [__prog_5_7, 0]
       stack.push(constraint)
       return
     }
     var constraints = lookupResult.res
 
-    var B = constraints[1].args[0]
+    var B_0 = constraints[1].args[0]
     var X = constraints[1].args[1]
 
     var A_0 = constraints[2].args[0]
@@ -1826,8 +1916,8 @@ function CHR () {
 
     var L_0 = constraints[4].args[0]
 
-    if (!(I_Move === "move_i" && A === A_0 && C === C_0 && L === L_0)) {
-      constraint.cont = [__prog_4_6, __n + 1]
+    if (!(B === B_0 && A === A_0 && C === C_0 && L === L_0)) {
+      constraint.cont = [__prog_5_6, __n + 1]
       stack.push(constraint)
       return
     }
@@ -1847,7 +1937,7 @@ function CHR () {
       stack.push(_c)
     })()
 
-    constraint.cont = [__prog_4_6, __n + 1]
+    constraint.cont = [__prog_5_6, __n + 1]
     stack.push(constraint)
     return
   }
@@ -1857,7 +1947,7 @@ function CHR () {
 
     var L_0 = constraint.args[0]
 
-    var constraintPattern = [ "prog/4", "mem/2", "_" ]
+    var constraintPattern = [ "prog/5", "mem/2", "_" ]
     var lookupResult = chr.Store.lookupResume(7, constraintPattern, constraint, __n)
     if (lookupResult === false) {
       constraint.cont = [__prog_counter_1_8, 0]
@@ -1868,10 +1958,13 @@ function CHR () {
 
     var L = constraints[0].args[0]
     var L1 = constraints[0].args[1]
-    
-    // Note: This feature needs native Destructuring (Array value).
-    var [Const, B] = constraints[0].args[2]
-    var A = constraints[0].args[3]
+    if (constraints[0].args[2] !== "const") {
+      constraint.cont = [__prog_counter_1_7, __n + 1]
+      stack.push(constraint)
+      return
+    }
+    var B = constraints[0].args[3]
+    var A = constraints[0].args[4]
 
     var A_0 = constraints[1].args[0]
     var QQ = constraints[1].args[1]
@@ -1905,7 +1998,7 @@ function CHR () {
     var A_0 = constraint.args[0]
     var QQ = constraint.args[1]
 
-    var constraintPattern = [ "prog/4", "_", "prog_counter/1" ]
+    var constraintPattern = [ "prog/5", "_", "prog_counter/1" ]
     var lookupResult = chr.Store.lookupResume(7, constraintPattern, constraint, __n)
     if (lookupResult === false) {
       constraint.cont = [__mem_2_17, 0]
@@ -1916,10 +2009,13 @@ function CHR () {
 
     var L = constraints[0].args[0]
     var L1 = constraints[0].args[1]
-    
-    // Note: This feature needs native Destructuring (Array value).
-    var [Const, B] = constraints[0].args[2]
-    var A = constraints[0].args[3]
+    if (constraints[0].args[2] !== "const") {
+      constraint.cont = [__mem_2_16, __n + 1]
+      stack.push(constraint)
+      return
+    }
+    var B = constraints[0].args[3]
+    var A = constraints[0].args[4]
 
     var L_0 = constraints[2].args[0]
 
@@ -1946,20 +2042,23 @@ function CHR () {
     // active constraint gets removed
   }
 
-  function __prog_4_7 (constraint, __n) {
+  function __prog_5_7 (constraint, __n) {
     __n = __n || 0
 
     var L = constraint.args[0]
     var L1 = constraint.args[1]
-    
-    // Note: This feature needs native Destructuring (Array value).
-    var [Const, B] = constraint.args[2]
-    var A = constraint.args[3]
+    if (constraint.args[2] !== "const") {
+      constraint.cont = [__prog_5_8, 0]
+      stack.push(constraint)
+      return
+    }
+    var B = constraint.args[3]
+    var A = constraint.args[4]
 
     var constraintPattern = [ "_", "mem/2", "prog_counter/1" ]
     var lookupResult = chr.Store.lookupResume(7, constraintPattern, constraint, __n)
     if (lookupResult === false) {
-      constraint.cont = [__prog_4_8, 0]
+      constraint.cont = [__prog_5_8, 0]
       stack.push(constraint)
       return
     }
@@ -1971,7 +2070,7 @@ function CHR () {
     var L_0 = constraints[2].args[0]
 
     if (!(Const === "const" && A === A_0 && L === L_0)) {
-      constraint.cont = [__prog_4_7, __n + 1]
+      constraint.cont = [__prog_5_7, __n + 1]
       stack.push(constraint)
       return
     }
@@ -1991,7 +2090,7 @@ function CHR () {
       stack.push(_c)
     })()
 
-    constraint.cont = [__prog_4_7, __n + 1]
+    constraint.cont = [__prog_5_7, __n + 1]
     stack.push(constraint)
     return
   }
@@ -2012,10 +2111,14 @@ function CHR () {
 
     var L = constraints[0].args[0]
     var QQ = constraints[0].args[1]
-    var Jump = constraints[0].args[2]
+    if (constraints[0].args[2] !== "jump") {
+      constraint.cont = [__prog_counter_1_8, __n + 1]
+      stack.push(constraint)
+      return
+    }
     var A = constraints[0].args[3]
 
-    if (!(Jump === "jump" && L === L_0)) {
+    if (!(L === L_0)) {
       constraint.cont = [__prog_counter_1_8, __n + 1]
       stack.push(constraint)
       return
@@ -2030,18 +2133,22 @@ function CHR () {
     // active constraint gets removed
   }
 
-  function __prog_4_8 (constraint, __n) {
+  function __prog_4_0 (constraint, __n) {
     __n = __n || 0
 
     var L = constraint.args[0]
     var QQ = constraint.args[1]
-    var Jump = constraint.args[2]
+    if (constraint.args[2] !== "jump") {
+      constraint.cont = [__prog_4_1, 0]
+      stack.push(constraint)
+      return
+    }
     var A = constraint.args[3]
 
     var constraintPattern = [ "_", "prog_counter/1" ]
     var lookupResult = chr.Store.lookupResume(8, constraintPattern, constraint, __n)
     if (lookupResult === false) {
-      constraint.cont = [__prog_4_9, 0]
+      constraint.cont = [__prog_4_1, 0]
       stack.push(constraint)
       return
     }
@@ -2049,8 +2156,8 @@ function CHR () {
 
     var L_0 = constraints[1].args[0]
 
-    if (!(Jump === "jump" && L === L_0)) {
-      constraint.cont = [__prog_4_8, __n + 1]
+    if (!(L === L_0)) {
+      constraint.cont = [__prog_4_0, __n + 1]
       stack.push(constraint)
       return
     }
@@ -2063,7 +2170,7 @@ function CHR () {
       stack.push(_c)
     })()
 
-    constraint.cont = [__prog_4_8, __n + 1]
+    constraint.cont = [__prog_4_0, __n + 1]
     stack.push(constraint)
     return
   }
@@ -2073,7 +2180,7 @@ function CHR () {
 
     var L_0 = constraint.args[0]
 
-    var constraintPattern = [ "prog/4", "mem/2", "_" ]
+    var constraintPattern = [ "prog/5", "mem/2", "_" ]
     var lookupResult = chr.Store.lookupResume(9, constraintPattern, constraint, __n)
     if (lookupResult === false) {
       constraint.cont = [__prog_counter_1_10, 0]
@@ -2084,15 +2191,18 @@ function CHR () {
 
     var L = constraints[0].args[0]
     var QQ = constraints[0].args[1]
-    
-    // Note: This feature needs native Destructuring (Array value).
-    var [Cjump, R1] = constraints[0].args[2]
-    var A = constraints[0].args[3]
+    if (constraints[0].args[2] !== "cjump") {
+      constraint.cont = [__prog_counter_1_9, __n + 1]
+      stack.push(constraint)
+      return
+    }
+    var R1 = constraints[0].args[3]
+    var A = constraints[0].args[4]
 
     var R2 = constraints[1].args[0]
     var X = constraints[1].args[1]
 
-    if (!(X === 0 && Cjump === "cjump" && R1 === R2 && L === L_0)) {
+    if (!(X === 0 && R1 === R2 && L === L_0)) {
       constraint.cont = [__prog_counter_1_9, __n + 1]
       stack.push(constraint)
       return
@@ -2113,7 +2223,7 @@ function CHR () {
     var R2 = constraint.args[0]
     var X = constraint.args[1]
 
-    var constraintPattern = [ "prog/4", "_", "prog_counter/1" ]
+    var constraintPattern = [ "prog/5", "_", "prog_counter/1" ]
     var lookupResult = chr.Store.lookupResume(9, constraintPattern, constraint, __n)
     if (lookupResult === false) {
       constraint.cont = [__mem_2_18, 0]
@@ -2124,14 +2234,17 @@ function CHR () {
 
     var L = constraints[0].args[0]
     var QQ = constraints[0].args[1]
-    
-    // Note: This feature needs native Destructuring (Array value).
-    var [Cjump, R1] = constraints[0].args[2]
-    var A = constraints[0].args[3]
+    if (constraints[0].args[2] !== "cjump") {
+      constraint.cont = [__mem_2_17, __n + 1]
+      stack.push(constraint)
+      return
+    }
+    var R1 = constraints[0].args[3]
+    var A = constraints[0].args[4]
 
     var L_0 = constraints[2].args[0]
 
-    if (!(X === 0 && Cjump === "cjump" && R1 === R2 && L === L_0)) {
+    if (!(X === 0 && R1 === R2 && L === L_0)) {
       constraint.cont = [__mem_2_17, __n + 1]
       stack.push(constraint)
       return
@@ -2150,20 +2263,23 @@ function CHR () {
     return
   }
 
-  function __prog_4_9 (constraint, __n) {
+  function __prog_5_8 (constraint, __n) {
     __n = __n || 0
 
     var L = constraint.args[0]
     var QQ = constraint.args[1]
-    
-    // Note: This feature needs native Destructuring (Array value).
-    var [Cjump, R1] = constraint.args[2]
-    var A = constraint.args[3]
+    if (constraint.args[2] !== "cjump") {
+      constraint.cont = [__prog_5_9, 0]
+      stack.push(constraint)
+      return
+    }
+    var R1 = constraint.args[3]
+    var A = constraint.args[4]
 
     var constraintPattern = [ "_", "mem/2", "prog_counter/1" ]
     var lookupResult = chr.Store.lookupResume(9, constraintPattern, constraint, __n)
     if (lookupResult === false) {
-      constraint.cont = [__prog_4_10, 0]
+      constraint.cont = [__prog_5_9, 0]
       stack.push(constraint)
       return
     }
@@ -2174,8 +2290,8 @@ function CHR () {
 
     var L_0 = constraints[2].args[0]
 
-    if (!(X === 0 && Cjump === "cjump" && R1 === R2 && L === L_0)) {
-      constraint.cont = [__prog_4_9, __n + 1]
+    if (!(X === 0 && R1 === R2 && L === L_0)) {
+      constraint.cont = [__prog_5_8, __n + 1]
       stack.push(constraint)
       return
     }
@@ -2188,7 +2304,7 @@ function CHR () {
       stack.push(_c)
     })()
 
-    constraint.cont = [__prog_4_9, __n + 1]
+    constraint.cont = [__prog_5_8, __n + 1]
     stack.push(constraint)
     return
   }
@@ -2198,7 +2314,7 @@ function CHR () {
 
     var L_0 = constraint.args[0]
 
-    var constraintPattern = [ "prog/4", "mem/2", "_" ]
+    var constraintPattern = [ "prog/5", "mem/2", "_" ]
     var lookupResult = chr.Store.lookupResume(10, constraintPattern, constraint, __n)
     if (lookupResult === false) {
       constraint.cont = [__prog_counter_1_11, 0]
@@ -2209,15 +2325,18 @@ function CHR () {
 
     var L = constraints[0].args[0]
     var L1 = constraints[0].args[1]
-    
-    // Note: This feature needs native Destructuring (Array value).
-    var [Cjump, R1] = constraints[0].args[2]
-    var QQ = constraints[0].args[3]
+    if (constraints[0].args[2] !== "cjump") {
+      constraint.cont = [__prog_counter_1_10, __n + 1]
+      stack.push(constraint)
+      return
+    }
+    var R1 = constraints[0].args[3]
+    var QQ = constraints[0].args[4]
 
     var R2 = constraints[1].args[0]
     var X = constraints[1].args[1]
 
-    if (!(X !== 0 && Cjump === "cjump" && R1 === R2 && L === L_0)) {
+    if (!(X !== 0 && R1 === R2 && L === L_0)) {
       constraint.cont = [__prog_counter_1_10, __n + 1]
       stack.push(constraint)
       return
@@ -2238,7 +2357,7 @@ function CHR () {
     var R2 = constraint.args[0]
     var X = constraint.args[1]
 
-    var constraintPattern = [ "prog/4", "_", "prog_counter/1" ]
+    var constraintPattern = [ "prog/5", "_", "prog_counter/1" ]
     var lookupResult = chr.Store.lookupResume(10, constraintPattern, constraint, __n)
     if (lookupResult === false) {
       constraint.cont = [__mem_2_19, 0]
@@ -2249,14 +2368,17 @@ function CHR () {
 
     var L = constraints[0].args[0]
     var L1 = constraints[0].args[1]
-    
-    // Note: This feature needs native Destructuring (Array value).
-    var [Cjump, R1] = constraints[0].args[2]
-    var QQ = constraints[0].args[3]
+    if (constraints[0].args[2] !== "cjump") {
+      constraint.cont = [__mem_2_18, __n + 1]
+      stack.push(constraint)
+      return
+    }
+    var R1 = constraints[0].args[3]
+    var QQ = constraints[0].args[4]
 
     var L_0 = constraints[2].args[0]
 
-    if (!(X !== 0 && Cjump === "cjump" && R1 === R2 && L === L_0)) {
+    if (!(X !== 0 && R1 === R2 && L === L_0)) {
       constraint.cont = [__mem_2_18, __n + 1]
       stack.push(constraint)
       return
@@ -2275,20 +2397,23 @@ function CHR () {
     return
   }
 
-  function __prog_4_10 (constraint, __n) {
+  function __prog_5_9 (constraint, __n) {
     __n = __n || 0
 
     var L = constraint.args[0]
     var L1 = constraint.args[1]
-    
-    // Note: This feature needs native Destructuring (Array value).
-    var [Cjump, R1] = constraint.args[2]
-    var QQ = constraint.args[3]
+    if (constraint.args[2] !== "cjump") {
+      constraint.cont = [__prog_5_10, 0]
+      stack.push(constraint)
+      return
+    }
+    var R1 = constraint.args[3]
+    var QQ = constraint.args[4]
 
     var constraintPattern = [ "_", "mem/2", "prog_counter/1" ]
     var lookupResult = chr.Store.lookupResume(10, constraintPattern, constraint, __n)
     if (lookupResult === false) {
-      constraint.cont = [__prog_4_11, 0]
+      constraint.cont = [__prog_5_10, 0]
       stack.push(constraint)
       return
     }
@@ -2299,8 +2424,8 @@ function CHR () {
 
     var L_0 = constraints[2].args[0]
 
-    if (!(X !== 0 && Cjump === "cjump" && R1 === R2 && L === L_0)) {
-      constraint.cont = [__prog_4_10, __n + 1]
+    if (!(X !== 0 && R1 === R2 && L === L_0)) {
+      constraint.cont = [__prog_5_9, __n + 1]
       stack.push(constraint)
       return
     }
@@ -2313,7 +2438,7 @@ function CHR () {
       stack.push(_c)
     })()
 
-    constraint.cont = [__prog_4_10, __n + 1]
+    constraint.cont = [__prog_5_9, __n + 1]
     stack.push(constraint)
     return
   }
@@ -2334,10 +2459,14 @@ function CHR () {
 
     var L = constraints[0].args[0]
     var A = constraints[0].args[1]
-    var Halt = constraints[0].args[2]
+    if (constraints[0].args[2] !== "halt") {
+      constraint.cont = [__prog_counter_1_11, __n + 1]
+      stack.push(constraint)
+      return
+    }
     var B = constraints[0].args[3]
 
-    if (!(Halt === "halt" && L === L_0)) {
+    if (!(L === L_0)) {
       constraint.cont = [__prog_counter_1_11, __n + 1]
       stack.push(constraint)
       return
@@ -2346,18 +2475,22 @@ function CHR () {
     // active constraint gets removed
   }
 
-  function __prog_4_11 (constraint, __n) {
+  function __prog_4_1 (constraint, __n) {
     __n = __n || 0
 
     var L = constraint.args[0]
     var A = constraint.args[1]
-    var Halt = constraint.args[2]
+    if (constraint.args[2] !== "halt") {
+      constraint.cont = [__prog_4_2, 0]
+      stack.push(constraint)
+      return
+    }
     var B = constraint.args[3]
 
     var constraintPattern = [ "_", "prog_counter/1" ]
     var lookupResult = chr.Store.lookupResume(11, constraintPattern, constraint, __n)
     if (lookupResult === false) {
-      constraint.cont = [__prog_4_12, 0]
+      constraint.cont = [__prog_4_2, 0]
       stack.push(constraint)
       return
     }
@@ -2365,20 +2498,25 @@ function CHR () {
 
     var L_0 = constraints[1].args[0]
 
-    if (!(Halt === "halt" && L === L_0)) {
-      constraint.cont = [__prog_4_11, __n + 1]
+    if (!(L === L_0)) {
+      constraint.cont = [__prog_4_1, __n + 1]
       stack.push(constraint)
       return
     }
 
     chr.Store.remove(constraints[1])
 
-    constraint.cont = [__prog_4_11, __n + 1]
+    constraint.cont = [__prog_4_1, __n + 1]
     stack.push(constraint)
     return
   }
 
-  function __prog_4_12 (constraint) {
+  function __prog_4_2 (constraint) {
+    constraint.cont = null
+    chr.Store.add(constraint)
+  }
+
+  function __prog_5_10 (constraint) {
     constraint.cont = null
     chr.Store.add(constraint)
   }
@@ -2398,10 +2536,15 @@ function CHR () {
     var arity = arguments.length
     var functor = "prog/" + arity
     var constraint = new Constraint("prog", arity, args)
-    if (arity === 4) {
-      constraint.cont = [__prog_4_0, ]
-    } else {
-      throw new Error("Undefined constraint: " + functor)
+    switch(arity) {
+      case 4:
+        constraint.cont = [__prog_4_0, ]
+        break
+      case 5:
+        constraint.cont = [__prog_5_0, ]
+        break
+      default:
+        throw new Error("Undefined constraint: " + functor)
     }
     stack.push(constraint)
 
