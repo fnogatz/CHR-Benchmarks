@@ -6,6 +6,15 @@ my %DATA;
 my %PDATA;
 my %ORDER;
 
+my %LINESTYLES=(
+  swi   => 'lc rgb "dark-violet"',
+  jchr  => 'lc rgb "#009e73"',
+  chrjs => 'lc rgb "#f4cb42" dt (10,6,2,6)',
+  cchr  => 'lc rgb "#56b4e9"',
+  c     => 'lc rgb "#e69f00"',
+  js    => 'lc rgb "#0072b2" dt (46,6,2,6)'
+);
+
 open PIPE,"| gnuplot";
 
 for my $file (@ARGV) {
@@ -96,21 +105,26 @@ for my $bench (keys %PDATA) {
 
 print PIPE "set xlabel \"problem size\"\n";
 print PIPE "set ylabel \"time\"\n";
+print PIPE "set yrange [0.0005:10]\n";
+print PIPE "set xrange [1:10000000]\n";
 print PIPE "set logscale xy\n";
 print PIPE "set key bot right\n";
+
+# my @syses = ("swi", "jchr", "chrjs", "js", "cchr");
 
 for my $bench (keys %PDATA) {
   my $benchdata=$PDATA{$bench};
   print PIPE "set title \"Benchmark $bench\"\n";
   my @plots;
   for my $sys (@{$ORDER{$bench}}) {
+# for my $sys (@syses) {
     my $data=$benchdata->{$sys};
     open FILE,">plots/bench-$bench-$sys.dat";
     for my $num (sort { $a <=> $b } (grep {/^\d/} (keys %{$data}))) {
       printf FILE ("%i %.16f\n",$num,$data->{$num});
     }
     close FILE;
-    push @plots,"\"plots/bench-$bench-$sys.dat\" using 1:2 title \"$sys\" with line";
+    push @plots,"\"plots/bench-$bench-$sys.dat\" using 1:2 title \"$sys\" with line $LINESTYLES{$sys}";
   }
   print PIPE "set terminal postscript enhanced color\n";
   print PIPE "set output \"plots/bench-$bench.ps\"\n";
