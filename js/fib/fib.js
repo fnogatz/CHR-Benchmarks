@@ -2,7 +2,7 @@ module.exports = test
 
 function test (a) {
   var res = fib(a)
-  console.log(res)
+  //console.log(res)
   console.log('done')
 }
 
