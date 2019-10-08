@@ -1,0 +1,21 @@
+If you use the CHR Benchmarks in a scientific publication, please
+provide a link to this software as
+
+   F. Nogatz, CHR Benchmarks, https://github.com/fnogatz/CHR-Benchmarks
+
+The benchmark suite was originally created for comparing CCHR with
+existing CHR systems. So it is best to cite the original CCHR paper if
+you only refer to the original test cases or benchmarking CHR in
+general:
+
+   Wuille, P., Schrijvers, T., & Demoen, B. (2007). CCHR: the fastest
+   CHR Implementation, in C. In Proceedings of the 4th Workshop on
+   Constraint Handling Rules (pp. 123-137).
+
+The benchmarks have been re-run in 2018 and put together in this GitHub
+repository. If you refer to more recent CHR benchmarks, please cite this
+work as well:
+
+   Nogatz, F., Frühwirth, T., & Seipel, D. (2018). CHR. js: A CHR
+   Implementation in JavaScript. In International Joint Conference on
+   Rules and Reasoning (pp. 131-146). Springer.

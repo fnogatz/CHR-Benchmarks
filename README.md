@@ -81,3 +81,7 @@ make plot
 ```
 
 This will create the `/plots` directory containing a PDF for each problem, for example `/plots/bench-gcd-col.pdf`.
+
+## Citation & Acknowledgements
+
+If you use the CHR Benchmarks in a scientific publication, please cite it as described in [`CITATION`](CITATION).
